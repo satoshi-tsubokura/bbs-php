@@ -13,6 +13,7 @@ services:
     image: mysql
     volumes:
       - /var/lib/mysql
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
     ports:
       - ${DB_PORT}:3306
     environment:
