@@ -54,9 +54,12 @@ class Router
      */
     public function registerRouteData($routeData): void
     {
-        // 許可しているHTTPメソッドが指定されているか
         if (! $this->isAllowedMethod($routeData[0])) {
             throw new \InvalidArgumentException('許可していないHTTPメソッドを登録しています。');
+        }
+
+        if ($this->isValidHandler($routeData[2])) {
+            throw new \InvalidArgumentException('不正なハンドラーが登録されています。');
         }
 
         $this->routeDataList[] = $routeData;
@@ -77,9 +80,34 @@ class Router
         $this->runDispatchFunc($routeInfo, $httpMethod);
     }
 
+    /**
+     * 許可しているHTTPメソッドを判定
+     *
+     * @param string $httpMethod
+     * @return boolean
+     */
     private function isAllowedMethod(string $httpMethod): bool
     {
         return in_array(strtolower($httpMethod), self::ALLOW_HTTP_METHOD);
+    }
+
+    /**
+     * ハンドラーの形式チェック
+     *
+     * @param mixed $handler
+     * @return boolean
+     */
+    private function isValidHandler(mixed $handler): bool
+    {
+        if ($handler instanceof \Closure) {
+            return true;
+        }
+
+        if (is_array($handler) && count($handler) >= 2) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
