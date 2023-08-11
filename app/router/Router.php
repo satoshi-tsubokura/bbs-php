@@ -52,16 +52,17 @@ class Router
      * @return void
      * @throws InvalidArgumentsException
      */
-    public function registerRouteData($routeData): void
+    public function registerRouteData(array $routeData): void
     {
         if (! $this->isAllowedMethod($routeData[0])) {
             throw new \InvalidArgumentException('許可していないHTTPメソッドを登録しています。');
         }
 
-        if ($this->isValidHandler($routeData[2])) {
+        if (! $this->isValidHandler($routeData[2])) {
             throw new \InvalidArgumentException('不正なハンドラーが登録されています。');
         }
 
+        $routeData[0] = strtolwoer($routeData[0]);
         $this->routeDataList[] = $routeData;
     }
 
