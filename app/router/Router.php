@@ -62,7 +62,7 @@ class Router
             throw new \InvalidArgumentException('不正なハンドラーが登録されています。');
         }
 
-        $routeData[0] = strtolwoer($routeData[0]);
+        $routeData[0] = strtolower($routeData[0]);
         $this->routeDataList[] = $routeData;
     }
 
