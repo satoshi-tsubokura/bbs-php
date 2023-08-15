@@ -1,9 +1,11 @@
 version: "3"
 services:
   web:
-    build: ./docker/php
+    build: ./docker/web
     volumes:
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/web/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/web/apache/000-default.conf/:/etc/apache2/sites-available/000-default.conf
+      - ./docker/web/apache/apache2.conf/:/etc/apache2/apache2.conf
       - .:/var/www/html
     env_file: .env
     ports:
