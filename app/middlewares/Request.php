@@ -2,6 +2,10 @@
 
 namespace App\Middlewares;
 
+require_once __DIR__ . '/../utils/stringUtils.php';
+
+use function App\Utils\trimSpaceStr;
+
 /**
  * リクエストに関する値を扱うクラス
  *
@@ -25,5 +29,21 @@ class Request
         $uri = rawurldecode($uri);
 
         return $uri;
+    }
+
+    /**
+     * getパラメーターもしくは、リクエストボディの値を取得する。
+     *
+     * @return array $_GETもしくは$_POST
+     */
+    public function getAllParameters(): array
+    {
+        if($this->getRequestMethod() === 'get') {
+            $plainParameters = $_GET;
+        } else {
+            $plainParameters = $_POST;
+        }
+
+        return array_map(fn ($para) => trimSpaceStr($para), $plainParameters);
     }
 }
