@@ -17,13 +17,12 @@ $auth = new AuthUtil();
       </nav>
       <nav class="l-header__hnav">
     <?php
-      // if($auth->isAuthenticated()) {
-        if(true) {
-            ?>
+      if($auth->isAuthenticated()) {
+          ?>
       <a href="" class="c-btn c-btn--danger l-header__btn">ログアウト</a>
     <?php
-        } else {
-            ?>
+      } else {
+          ?>
         <ul class="p-btn-groups">
           <li>
             <a href="" class="c-btn c-btn--primary l-header__btn">ログイン</a>
@@ -33,7 +32,7 @@ $auth = new AuthUtil();
           </li>
         </ul>
         <?php
-        }
+      }
 ?>
       </nav>
     </div>
