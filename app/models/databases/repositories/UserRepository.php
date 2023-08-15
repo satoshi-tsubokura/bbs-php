@@ -44,10 +44,10 @@ class UserRepository extends AbstractMysqlRepository
      * ユーザー登録
      *
      * @param UserEntity $user
-     * @return boolean 実行が成功したかどうか
+     * @return string|false 登録したユーザーID
      * @throws PDOException
      */
-    public function insert(UserEntity $user)
+    public function insert(UserEntity $user): string|false
     {
         $sql = 'INSERT INTO ' . $this->tableName . '(user_name, email, password) VALUES(:user_name, :email, :password)';
         $parameters = [
@@ -57,5 +57,28 @@ class UserRepository extends AbstractMysqlRepository
         ];
 
         $this->dbConnection->executeQuery($sql, $parameters);
+        $this->logger->info($sql);
+
+        return $this->dbConnection->lastInsertId();
+    }
+
+    public function fetchUserById(string $userId): UserEntity
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=0';
+
+        $parameters = [':id' => $userId];
+        $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
+        $this->logger->info($sql);
+
+        if (count($record) === 0) {
+            return null;
+        }
+
+        $loginAt = new \DateTime($record['login_at']);
+        $createdAt = new \DateTime($record['created_at']);
+        $updatedAt = new \DateTime($record['updated_at']);
+
+        return new UserEntity($record['id'], $record['user_name'], $record['email'], $record['password'], $record['status'], $loginAt, $createdAt, $updatedAt);
+
     }
 }

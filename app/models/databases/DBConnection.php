@@ -97,4 +97,9 @@ class DBConnection implements IConnection
         $this->executeQuery($sql, $parameterList);
         return $this->statement->fetch(\PDO::FETCH_ASSOC);
     }
+
+    public function lastInsertId(?string $name = null): string|false
+    {
+        return $this->db->lastInsertId($name);
+    }
 }
