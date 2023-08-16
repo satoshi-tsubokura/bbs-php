@@ -2,9 +2,12 @@
 
 namespace App\Router;
 
+use App\Config\RouteAuthStatus;
 use App\Controllers\AbstractController;
 use App\Exceptions\InvalidTypeException;
+use App\Middlewares\AuthMiddleware;
 use App\Middlewares\Request;
+use App\Middlewares\Response;
 use FastRoute\Dispatcher;
 
 /**
@@ -19,6 +22,7 @@ class Router
      */
     private array $routeDataList = [];
     private Request $request;
+    private Response $response;
     public const ALLOW_HTTP_METHOD = ['get', 'post', 'delete', 'put'];
 
     /**
@@ -33,9 +37,10 @@ class Router
      *  ]
      * } $routeDataList 複数のルートデータ
      */
-    public function __construct(Request $request, array ...$routeDataList)
+    public function __construct(Request $request, Response $response, array ...$routeDataList)
     {
         $this->request = $request;
+        $this->response = $response;
         array_walk($routeDataList, function ($data) {
             $this->registerRouteData($data);
         });
@@ -47,7 +52,7 @@ class Router
      * @param array{
      *  0: string HTTPメソッド
      *  1: string URIパターン
-     *  2: array|Closure コントローラメソッド|クロージャー
+     *  2: array|Closure コントローラメソッド｜クロージャー
      * } $routeData
      * @return void
      * @throws InvalidArgumentsException
@@ -77,6 +82,11 @@ class Router
         $httpMethod = $this->request->getRequestMethod();
         $uriPath = $this->request->getPath();
         $routeInfo = $this->dispatch($httpMethod, $uriPath);
+
+        // 認証状態によるリダイレクト処理
+        $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
+        $authMiddleware = new AuthMiddleware();
+        $authMiddleware->handleRoute(new Response(), $routeAuth);
 
         $this->runDispatchFunc($routeInfo, $httpMethod);
     }
@@ -154,7 +164,7 @@ class Router
 
                 // クラスメソッドが割り当てられている場合
                 if (is_array($handler)) {
-                    $controller = new $handler[0]($this->request);
+                    $controller = new $handler[0]($this->request, $this->response);
 
                     if (! $controller instanceof AbstractController) {
                         throw new InvalidTypeException('AbstractControllerを継承しいないクラスを実行できません。');
