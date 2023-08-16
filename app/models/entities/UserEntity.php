@@ -9,19 +9,22 @@ namespace App\Models\Entities;
  */
 class UserEntity
 {
+    public const ACTIVE = 0;
+    public const NOT_ACTIVE = 1;
+
     public function __construct(
         private ?int $id,
         private string $userName,
         private string $email,
         private string $password,
-        private int $status = 0,
+        private int $status = self::ACTIVE,
         private ?\DateTime $loginAt = null,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
     ) {
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -46,17 +49,17 @@ class UserEntity
         return $this->status;
     }
 
-    public function getLoginAt(): \DateTime
+    public function getLoginAt(): ?\DateTime
     {
         return $this->loginAt;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->loginAt;
     }
