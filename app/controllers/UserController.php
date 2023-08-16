@@ -2,19 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Middlewares\Validations\RequestValidator;
 use App\Middlewares\Request;
 use App\Middlewares\Response;
 use App\Models\Databases\Repositories\UserRepository;
 use App\Services\AuthenticateService;
 use App\Services\UserService;
-use App\Utils\SessionManager;
 
 class UserController extends AbstractController
 {
     private const SIGN_UP_VIEW_PATH = __DIR__ . '/../views/pages/sign_up.php';
 
-    private array $validatorRules;
     private UserService $userService;
     private AuthenticateService $authService;
 
@@ -56,12 +53,8 @@ class UserController extends AbstractController
      */
     public function signup()
     {
-        // 認証済みの場合、リダイレクトする
-
-        // バリデーション処理
         $parameters = $this->request->getAllParameters();
-        $validator = new RequestValidator($this->validatorRules, $parameters);
-        $errorMsgs = $validator->validate();
+        $errorMsgs = $this->validate($parameters);
 
         try {
             if (count($errorMsgs) === 0) {
@@ -84,7 +77,7 @@ class UserController extends AbstractController
             $this->logger->error("ユーザー登録に失敗: {$e->getMessage()}", $e->getTrace());
 
             // TODO: エラー画面
-            // header('Location: /error');
+            header('Location: /error');
         }
     }
 

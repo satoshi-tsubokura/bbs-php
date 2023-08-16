@@ -5,17 +5,11 @@ namespace App\Controllers;
 use App\Models\Databases\Repositories\UserRepository;
 use App\Middlewares\Request;
 use App\Middlewares\Response;
-use App\Middlewares\Validations\RequestValidator;
 use App\Services\AuthenticateService;
-use App\Services\UserService;
-use App\Utils\AppLogger;
-use App\Utils\AuthUtil;
 
 class AuthenticationController extends AbstractController
 {
     private const SIGN_IN_VIEW_PATH = __DIR__ . '/../views/pages/sign_in.php';
-
-    private array $validatorRules;
     private AuthenticateService $authService;
 
     public function __construct(Request $request, Response $response)
@@ -48,8 +42,7 @@ class AuthenticationController extends AbstractController
     public function signin()
     {
         $parameters = $this->request->getAllParameters();
-        $validator = new RequestValidator($this->validatorRules, $parameters);
-        $errorMsgs = $validator->validate();
+        $errorMsgs = $this->validate($parameters);
 
         if(count($errorMsgs) > 0) {
             require_once self::SIGN_IN_VIEW_PATH;
