@@ -4,6 +4,7 @@ namespace Tests\Unit\Router;
 
 use App\Controllers\AbstractController;
 use App\Middlewares\Request;
+use App\Middlewares\Response;
 use App\Router\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Unit\CustomTestCase;
@@ -12,11 +13,13 @@ final class RouterTest extends CustomTestCase
 {
     private Router $router;
     private Request $requestStub;
+    private Response $responseStub;
 
     public function setUp(): void
     {
         $this->requestStub = $this->createStub(Request::class);
-        $this->router = new Router($this->requestStub);
+        $this->responseStub  = $this->createStub(Response::class);
+        $this->router = new Router($this->requestStub, $this->responseStub);
     }
 
     #[DataProvider('validRouteDataListProvider')]
@@ -41,7 +44,7 @@ final class RouterTest extends CustomTestCase
 
     public function testRegisterInvalidMethodHandler(): void
     {
-        $controller = new class ($this->requestStub) extends AbstractController {
+        $controller = new class ($this->requestStub, $this->responseStub) extends AbstractController {
             public function index()
             {
                 print 'testController';
@@ -100,7 +103,7 @@ final class RouterTest extends CustomTestCase
      */
     public static function validRouteDataListProvider(): array
     {
-        $controller = new class (new Request()) extends AbstractController {
+        $controller = new class (new Request(), new Response()) extends AbstractController {
             public function index(int $id)
             {
                 print "id: {$id}";

@@ -19,6 +19,7 @@ $router = new Router(
     ['get', '/sign_in', [AuthenticationController::class, 'viewSignin']],
     ['post', '/sign_in', [AuthenticationController::class, 'signin', RouteAuthStatus::UnAuthenticated]],
     ['post', '/sign_out', [AuthenticationController::class, 'signout', RouteAuthStatus::Required]],
+    ['get', '/', [AuthenticationController::class, 'viewSignin'], RouteAuthStatus::Optional],
 );
 
 $router->resolve();

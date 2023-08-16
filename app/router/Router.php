@@ -83,10 +83,13 @@ class Router
         $uriPath = $this->request->getPath();
         $routeInfo = $this->dispatch($httpMethod, $uriPath);
 
-        // 認証状態によるリダイレクト処理
-        $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
-        $authMiddleware = new AuthMiddleware();
-        $authMiddleware->handleRoute(new Response(), $routeAuth);
+        // TODO: ハンドラー($routeInfo[1])の型がClosureである場合の処理を追加する
+        if (is_array($routeInfo[1])) {
+            // 認証状態によるリダイレクト処理
+            $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
+            $authMiddleware = new AuthMiddleware();
+            $authMiddleware->handleRoute(new Response(), $routeAuth);
+        }
 
         $this->runDispatchFunc($routeInfo, $httpMethod);
     }
