@@ -9,6 +9,11 @@ class SessionManager
         return session_start();
     }
 
+    public function reset(): bool
+    {
+        return session_regenerate_id();
+    }
+
     public function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;

@@ -39,5 +39,7 @@ class AuthenticateService
         $session->start();
         $session->set('user_id', $user->getId());
         $session->set('user_name', $user->getUserName());
+        // セッション固定化攻撃対策
+        $session->reset();
     }
 }
