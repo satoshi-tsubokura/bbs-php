@@ -9,6 +9,11 @@ class SessionManager
         return session_start();
     }
 
+    public function reset(): bool
+    {
+        return session_regenerate_id();
+    }
+
     public function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
@@ -29,15 +34,15 @@ class SessionManager
         return isset($_COOKIE[session_name()]);
     }
 
-    public function destroy()
+    public function destroy(): bool
     {
         $_SESSION = [];
 
         if (isset($_COOKIE[session_name()])) {
-            $cookieParams = session_cookie_params();
+            $cookieParams = session_get_cookie_params();
             setcookie(session_name(), '', time() - 3600, $cookieParams['path'], $cookieParams['domain'], $cookieParams['secure'], $cookieParams['httponly']);
         }
 
-        session_destroy();
+        return session_destroy();
     }
 }

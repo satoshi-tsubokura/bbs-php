@@ -27,4 +27,16 @@ class Response
         http_response_code($this->statusCode);
         print json_encode($this->responseData);
     }
+
+    /**
+     * 指定したパスにリダイレクトする
+     *
+     * @param string $path
+     * @return void
+     */
+    public function redirect(string $path = '/'): void
+    {
+        header("Location: {$path}");
+        exit();
+    }
 }

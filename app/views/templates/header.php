@@ -19,16 +19,18 @@ $auth = new AuthUtil();
     <?php
       if($auth->isAuthenticated()) {
           ?>
-      <a href="" class="c-btn c-btn--danger l-header__btn">ログアウト</a>
+      <form name="logout_form" action="/sign_out" method="POST">
+        <a href="javascript:logout_form.submit()" class="c-btn c-btn--danger l-header__btn">ログアウト</a>
+      </form>
     <?php
       } else {
           ?>
         <ul class="p-btn-groups">
           <li>
-            <a href="" class="c-btn c-btn--primary l-header__btn">ログイン</a>
+            <a href="/sign_in" class="c-btn c-btn--primary l-header__btn">ログイン</a>
           </li>
           <li>
-            <a href="" class="c-btn l-header__btn">新規登録</a>
+            <a href="/sign_up" class="c-btn l-header__btn">新規登録</a>
           </li>
         </ul>
         <?php
