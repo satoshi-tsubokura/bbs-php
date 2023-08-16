@@ -54,7 +54,7 @@ class UserController extends AbstractController
      *
      * @return void
      */
-    public function add()
+    public function signup()
     {
         // 認証済みの場合、リダイレクトする
 

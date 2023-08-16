@@ -62,6 +62,12 @@ class UserRepository extends AbstractMysqlRepository
         return $this->dbConnection->lastInsertId();
     }
 
+    /**
+     * ユーザーIDによるユーザー取得
+     *
+     * @param string $userId
+     * @return UserEntity
+     */
     public function fetchUserById(string $userId): UserEntity
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=0';
@@ -80,5 +86,30 @@ class UserRepository extends AbstractMysqlRepository
 
         return new UserEntity($record['id'], $record['user_name'], $record['email'], $record['password'], $record['status'], $loginAt, $createdAt, $updatedAt);
 
+    }
+
+    /**
+     * ユーザー名に一致するユーザーを取得する
+     *
+     * @param string $name
+     * @return UserEntity|false ユーザーが見つからなければ、falseを返す
+     */
+    public function fetchUserByName(string $name): UserEntity|false
+    {
+        $sql = 'SELECT id, user_name, email, password, status, login_at, created_at, updated_at FROM ' . $this->tableName . ' WHERE user_name=:user_name AND status=0';
+        $parameters = [':user_name' => $name];
+
+        $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
+        $this->logger->info($sql);
+
+        if (! $record) {
+            return false;
+        }
+
+        $loginAt = new \DateTime($record['login_at']);
+        $createdAt = new \DateTime($record['created_at']);
+        $updatedAt = new \DateTime($record['updated_at']);
+
+        return new UserEntity($record['id'], $record['user_name'], $record['email'], $record['password'], $record['status'], $loginAt, $createdAt, $updatedAt);
     }
 }

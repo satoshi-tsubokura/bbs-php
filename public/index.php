@@ -14,10 +14,11 @@ $response = new Response();
 $router = new Router(
     $request,
     $response,
-    ['post', '/sign_up', [UserController::class, 'add', RouteAuthStatus::UnAuthenticated]],
+    ['post', '/sign_up', [UserController::class, 'signup', RouteAuthStatus::UnAuthenticated]],
     ['get', '/sign_up', [UserController::class, 'viewSignup',  RouteAuthStatus::UnAuthenticated]],
-    ['get', '/sign_in', [AuthenticationController::class, 'viewSignin', RouteAuthStatus::UnAuthenticated]],
-    ['post', '/sign_in', [AuthenticationController::class, 'authenticate', RouteAuthStatus::UnAuthenticated]],
+    ['get', '/sign_in', [AuthenticationController::class, 'viewSignin']],
+    ['post', '/sign_in', [AuthenticationController::class, 'signin', RouteAuthStatus::UnAuthenticated]],
+    ['post', '/sign_out', [AuthenticationController::class, 'signout', RouteAuthStatus::Required]],
 );
 
 $router->resolve();
