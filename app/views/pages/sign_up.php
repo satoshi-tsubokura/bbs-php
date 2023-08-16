@@ -15,7 +15,7 @@
         <?php
        }
 ?>
-      <form method="POST" action="/sign_up" class="p-signinup__form" novalidate>
+      <form method="POST" action="/sign_up" class="p-signinup__form">
         <dl class="p-signinup__fields">
           <dt class="p-signinup__label">
             <label for="input_name">ユーザー名</label>
