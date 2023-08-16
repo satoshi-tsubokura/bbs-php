@@ -6,18 +6,24 @@ use App\Middlewares\Validations\RequestValidator;
 use App\Middlewares\Request;
 use App\Middlewares\Response;
 use App\Models\Databases\Repositories\UserRepository;
+use App\Services\AuthenticateService;
 use App\Services\UserService;
 use App\Utils\SessionManager;
 
 class UserController extends AbstractController
 {
+    private const SIGN_UP_VIEW_PATH = __DIR__ . '/../views/pages/sign_up.php';
+
     private array $validatorRules;
     private UserService $userService;
+    private AuthenticateService $authService;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Response $response)
     {
-        parent::__construct($request);
-        $this->userService = new UserService(new UserRepository());
+        parent::__construct($request, $response);
+        $userRepo = new UserRepository();
+        $this->userService = new UserService($userRepo);
+        $this->authService = new AuthenticateService($userRepo);
 
         $this->validatorRules = [
             'name' => [
@@ -43,8 +49,16 @@ class UserController extends AbstractController
         ];
     }
 
-    public function add()
+    /**
+     * ユーザー登録に関する処理を行う
+     *
+     * @return void
+     */
+    public function signup()
     {
+        // 認証済みの場合、リダイレクトする
+
+        // バリデーション処理
         $parameters = $this->request->getAllParameters();
         $validator = new RequestValidator($this->validatorRules, $parameters);
         $errorMsgs = $validator->validate();
@@ -59,12 +73,10 @@ class UserController extends AbstractController
             // エラーメッセージがあった場合
             $this->logger->info('$errorMsgs: ', $errorMsgs);
             if (count($errorMsgs) > 0) {
-                require_once __DIR__ . '/../views/pages/sign_up.php';
+                require_once self::SIGN_UP_VIEW_PATH;
             } else {
-                $session = new SessionManager();
-                $session->start();
-                $session->set('user_id', $user->getId());
-                $session->set('user_name', $user->getUserName());
+                // 新規登録成功
+                $this->authService->authenticate($user);
                 // TODO: 掲示板一覧画面へ
                 // header('Location: /');
             }
@@ -78,6 +90,6 @@ class UserController extends AbstractController
 
     public function viewSignUp()
     {
-        require_once __DIR__ . '/../views/pages/sign_up.php';
+        require_once self::SIGN_UP_VIEW_PATH;
     }
 }

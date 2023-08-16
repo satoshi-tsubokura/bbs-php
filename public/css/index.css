@@ -442,7 +442,7 @@ input {
   transition: all 0.3s ease;
 }
 .l-header__link:hover {
-  color: #167df0;
+  color: #1867c0;
   text-decoration: underline;
 }
 .l-header__btn {
@@ -474,47 +474,59 @@ input {
   border-color: #167df0;
 }
 
-.p-signup {
+.p-signinup {
   max-width: 700px;
-  margin: 100px auto 0;
+  margin: 100px auto 50px;
   background-color: #fff;
   font-size: 1.6rem;
 }
-.p-signup__ttl {
+.p-signinup__ttl {
   font-size: 2.4rem;
   font-weight: bold;
   margin-bottom: 30px;
   text-align: center;
 }
-.p-signup__fields {
+.p-signinup__form {
+  margin-bottom: 40px;
+}
+.p-signinup__fields {
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   display: flex;
   flex-wrap: wrap;
 }
-.p-signup__label {
+.p-signinup__label {
   width: 150px;
 }
-.p-signup__input {
+.p-signinup__input {
   width: calc(100% - 150px);
   margin-bottom: 20px;
 }
-.p-signup__help {
+.p-signinup__help {
   display: block;
   font-size: 1.2rem;
   margin-top: 5px;
 }
-.p-signup__errors {
+.p-signinup__errors {
   margin-bottom: 20px;
   text-align: center;
 }
-.p-signup__submit {
+.p-signinup__submit {
   margin: 0 auto;
   padding: 10px 0;
   width: 250px;
   background-color: #167df0;
   color: #fff;
   border-color: #167df0;
+}
+.p-signinup__link {
+  color: #1867c0;
+  text-align: center;
+  text-decoration: underline;
+  margin-bottom: 20px;
+}
+.p-signinup__link:hover {
+  color: #477ebd;
 }
 
 .c-btn {
@@ -524,6 +536,7 @@ input {
   border-width: 1px;
   border-style: solid;
   opacity: 0.9;
+  transition: all 0.3s ease;
 }
 .c-btn:hover {
   opacity: 1;
@@ -542,7 +555,7 @@ input {
 .c-card {
   border-radius: 10px;
   box-shadow: 0 12px 20px #8f8f8f;
-  padding: 20px;
+  padding: 30px;
 }
 
 .c-error-msg {

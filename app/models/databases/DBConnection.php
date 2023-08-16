@@ -92,7 +92,7 @@ class DBConnection implements IConnection
         return $this->statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function fetchFirstResult(string $sql, array $parameterList = []): array
+    public function fetchFirstResult(string $sql, array $parameterList = []): array|false
     {
         $this->executeQuery($sql, $parameterList);
         return $this->statement->fetch(\PDO::FETCH_ASSOC);

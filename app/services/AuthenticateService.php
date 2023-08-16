@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Databases\Repositories\UserRepository;
+use App\Models\Databases\Repositories\UserRepository;
 use App\Models\Entities\UserEntity;
+use App\Utils\SessionManager;
 
 class AuthenticateService
 {
@@ -17,14 +18,14 @@ class AuthenticateService
      *
      * @param string $username
      * @param string $plainPassword
-     * @return UserEntity|false 認証に失敗した場合、nullを返す
+     * @return UserEntity|false 認証に失敗した場合、falseを返す
      */
-    public function authenticate(string $username, string $plainPassword): UserEntity|false
+    public function fetchAuthUser(string $username, string $plainPassword): UserEntity|false
     {
-        $user = $this->userRepository->searchUser($username);
+        $user = $this->userRepository->fetchUserByName($username);
 
         // ユーザー名に合致するユーザーが存在しなかった場合
-        if (is_null($user)) {
+        if (! $user) {
             return false;
         }
 
@@ -32,8 +33,25 @@ class AuthenticateService
         return password_verify($plainPassword, $user->getPassword()) ? $user : false;
     }
 
-    public function generateJwt(int $userId)
+    public function authenticate(UserEntity $user): void
     {
+        $session = new SessionManager();
+        $session->start();
+        $session->set('user_id', $user->getId());
+        $session->set('user_name', $user->getUserName());
+        // セッション固定化攻撃対策
+        $session->reset();
+    }
 
+    /**
+     * 非認証状態（ログアウト）処理
+     *
+     * @return void
+     */
+    public function unAuthenticate(): void
+    {
+        $session = new SessionManager();
+        $session->start();
+        $session->destroy();
     }
 }

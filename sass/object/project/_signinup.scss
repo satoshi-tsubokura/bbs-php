@@ -1,6 +1,6 @@
-.p-signup {
+.p-signinup {
   max-width: 700px;
-  margin: 100px auto 0;
+  margin: 100px auto 50px;
   background-color: #fff;
   font-size: 1.6rem;
   
@@ -11,9 +11,13 @@
     text-align: center;
   }
 
+  &__form {
+    margin-bottom: 40px;
+  }
+
   &__fields {
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     display:flex;
     flex-wrap: wrap;
   }
@@ -45,5 +49,16 @@
     background-color: #167df0;
     color: #fff;
     border-color: #167df0;
+  }
+
+  &__link {
+    color: #1867c0;
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 20px;
+
+    &:hover {
+      color: #477ebd
+    }
   }
 }
