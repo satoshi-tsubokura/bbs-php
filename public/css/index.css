@@ -407,11 +407,15 @@ img {
   height: auto;
 }
 
-input {
+input, textarea {
   border: 1px solid #333;
   font-size: 1.6rem;
-  height: 2.5rem;
   padding: 3px 0.6rem;
+  background-color: #fff;
+}
+
+input {
+  height: 2.5rem;
 }
 
 .l-header {
@@ -515,9 +519,6 @@ input {
   margin: 0 auto;
   padding: 10px 0;
   width: 250px;
-  background-color: #167df0;
-  color: #fff;
-  border-color: #167df0;
 }
 .p-signinup__link {
   color: #1867c0;
@@ -527,6 +528,31 @@ input {
 }
 .p-signinup__link:hover {
   color: #477ebd;
+}
+
+.p-board-create {
+  margin-top: 100px;
+  font-size: 1.6rem;
+}
+.p-board-create__ttl {
+  font-size: 2.8rem;
+}
+.p-board-create__form {
+  margin: 50px 0;
+}
+.p-board-create__label {
+  margin-bottom: 10px;
+}
+.p-board-create__input {
+  margin-bottom: 30px;
+}
+.p-board-create__fields {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.p-board-create__submit {
+  padding: 10px 0;
+  width: 150px;
 }
 
 .c-btn {
