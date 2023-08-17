@@ -40,8 +40,6 @@ class Authentication
     {
         $session = new SessionManager();
         if ($session->hasSession()) {
-            $session->start();
-
             return $session->get('user_id') !== null;
         }
 

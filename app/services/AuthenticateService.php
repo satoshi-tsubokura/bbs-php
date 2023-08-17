@@ -36,9 +36,9 @@ class AuthenticateService
     public function authenticate(UserEntity $user): void
     {
         $session = new SessionManager();
-        $session->start();
         $session->set('user_id', $user->getId());
         $session->set('user_name', $user->getUserName());
+
         // セッション固定化攻撃対策
         $session->reset();
     }
@@ -51,7 +51,6 @@ class AuthenticateService
     public function unAuthenticate(): void
     {
         $session = new SessionManager();
-        $session->start();
         $session->destroy();
     }
 }
