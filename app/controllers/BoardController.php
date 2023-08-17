@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Kernels\Securities\CsrfHandler;
@@ -11,7 +12,6 @@ use App\Kernels\SessionManager;
 
 class BoardController extends AbstractController
 {
-    private const CREATE_VIEW_PATH = __DIR__ . '/../views/pages/board_create.php';
     private BoardService $boardService;
     private SessionManager $session;
     private CsrfHandler $csrfMiddleware;
@@ -71,6 +71,6 @@ class BoardController extends AbstractController
     public function viewCreate(array $originValues = [], array $errorMsgs = []): void
     {
         $csrfToken = $this->csrfMiddleware->create();
-        require_once self::CREATE_VIEW_PATH;
+        require_once __DIR__ . '/../views/pages/board_create.php';
     }
 }

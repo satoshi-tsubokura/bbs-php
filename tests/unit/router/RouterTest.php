@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Router;
 
-use App\Controllers\AbstractController;
+use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Kernelsr\Router;

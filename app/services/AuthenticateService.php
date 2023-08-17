@@ -42,15 +42,4 @@ class AuthenticateService
         // セッション固定化攻撃対策
         $session->reset();
     }
-
-    /**
-     * 非認証状態（ログアウト）処理
-     *
-     * @return void
-     */
-    public function unAuthenticate(): void
-    {
-        $session = new SessionManager();
-        $session->destroy();
-    }
 }

@@ -3,7 +3,7 @@
 namespace App\Kernels;
 
 use App\Kernels\Configs\RouteAuthStatus;
-use App\Controllers\AbstractController;
+use App\Kernels\AbstractController;
 use App\Exceptions\InvalidTypeException;
 use App\Kernels\Auth\Authentication;
 use App\Kernels\Http\Request;

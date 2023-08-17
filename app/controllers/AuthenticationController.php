@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Kernels\AbstractController;
 use App\Models\Databases\Repositories\UserRepository;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
+use App\Kernels\SessionManager;
 use App\Services\AuthenticateService;
 
 class AuthenticationController extends AbstractController
@@ -44,28 +46,27 @@ class AuthenticationController extends AbstractController
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
 
-        if(count($errorMsgs) > 0) {
-            require_once self::SIGN_IN_VIEW_PATH;
-            exit();
-        }
-
         try {
-            $user = $this->authService->fetchAuthUser($parameters['name'], $parameters['password']);
+            if (count($errorMsgs) === 0) {
+                $user = $this->authService->fetchAuthUser($parameters['name'], $parameters['password']);
 
-            if ($user) {
-                // 該当するユーザーが存在した場合
-                $this->authService->authenticate($user);
-                $this->response->redirect('/');
-            } else {
-                // 認証に失敗した場合
-                $errorMsgs = [
-                  'messages' => ['入力したユーザー名もしくはパスワードに一致するユーザーが見つかりませんでした。']
-                ];
-
-                // ログイン画面表示
-                require_once self::SIGN_IN_VIEW_PATH;
+                if (! $user) {
+                    // 認証に失敗した場合
+                    $errorMsgs = [
+                      'messages' => ['入力したユーザー名もしくはパスワードに一致するユーザーが見つかりませんでした。']
+                    ];
+                }
             }
 
+            // エラーメッセージがあれば画面表示
+            if(count($errorMsgs) > 0) {
+                require_once self::SIGN_IN_VIEW_PATH;
+                return;
+            }
+
+            // 該当するユーザーが存在した場合
+            $this->authService->authenticate($user);
+            $this->response->redirect('/');
         } catch(\PDOException $e) {
             $this->error("ユーザー認証処理に失敗: {$e->getMessage()}", $e->getTrace());
 
@@ -74,13 +75,15 @@ class AuthenticationController extends AbstractController
         }
     }
 
-    public function signout()
+    public function signout(): void
     {
-        $this->authService->unAuthenticate();
+        $session = new SessionManager();
+        $session->destroy();
+
         $this->response->redirect('/');
     }
 
-    public function viewSignin()
+    public function viewSignin(array $parameters = [], array $errorMsgs = []): void
     {
         require_once self::SIGN_IN_VIEW_PATH;
     }

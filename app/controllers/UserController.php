@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Models\Databases\Repositories\UserRepository;
@@ -10,8 +11,6 @@ use App\Services\UserService;
 
 class UserController extends AbstractController
 {
-    private const SIGN_UP_VIEW_PATH = __DIR__ . '/../views/pages/sign_up.php';
-
     private UserService $userService;
     private AuthenticateService $authService;
 
@@ -66,12 +65,12 @@ class UserController extends AbstractController
             // エラーメッセージがあった場合
             $this->logger->info('$errorMsgs: ', $errorMsgs);
             if (count($errorMsgs) > 0) {
-                require_once self::SIGN_UP_VIEW_PATH;
+                $this->viewSignUp($parameters, $errorMsgs);
             } else {
                 // 新規登録成功
                 $this->authService->authenticate($user);
                 // TODO: 掲示板一覧画面へ
-                // header('Location: /');
+                header('Location: /');
             }
         } catch(\PDOException $e) {
             $this->logger->error("ユーザー登録に失敗: {$e->getMessage()}", $e->getTrace());
@@ -81,8 +80,8 @@ class UserController extends AbstractController
         }
     }
 
-    public function viewSignUp()
+    public function viewSignUp(array $parameters = [], array $errorMsgs = []): void
     {
-        require_once self::SIGN_UP_VIEW_PATH;
+        require_once __DIR__ . '/../views/pages/sign_up.php';
     }
 }
