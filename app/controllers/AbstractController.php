@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Middlewares\Request;
 use App\Middlewares\Response;
+use App\Middlewares\Validations\RequestValidator;
 use App\Utils\AppLogger;
 
 abstract class AbstractController

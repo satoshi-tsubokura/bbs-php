@@ -33,21 +33,19 @@ class UserService
         // パスワードのハッシュ化
         $hashedPassword = password_hash($plainPassword, self::HASH_ALGOLISM);
 
-        $errorMsgs = [];
-        $userEntity = new UserEntity(id: null, userName: $name, email: $email, password: $hashedPassword);
-
         // ユーザー名とメールアドレスで一意性チェック
         if ($this->userRepository->existsNameOrPassword($name, $email)) {
             return false;
-        } else {
-            // ユーザー登録処理
-            $lastInsertId = $this->userRepository->insert($userEntity);
-
-            if ($lastInsertId === false) {
-                throw new \PDOException('ユーザーの登録に失敗しました。');
-            }
-
-            return $this->userRepository->fetchUserById($lastInsertId);
         }
+
+        // ユーザー登録処理
+        $userEntity = new UserEntity(id: null, userName: $name, email: $email, password: $hashedPassword);
+        $lastInsertId = $this->userRepository->insert($userEntity);
+
+        if ($lastInsertId === false) {
+            throw new \PDOException('ユーザーの登録に失敗しました。');
+        }
+
+        return $this->userRepository->fetchUserById($lastInsertId);
     }
 }
