@@ -31,9 +31,13 @@ img {
   height: auto;
 }
 
-input {
+input, textarea {
   border: 1px solid #333;
   font-size: 1.6rem;
-  height: 2.5rem;
   padding: 3px 0.6rem;
+  background-color: #fff;
+}
+
+input {
+  height: 2.5rem;
 }

@@ -84,7 +84,7 @@ class Router
         $routeInfo = $this->dispatch($httpMethod, $uriPath);
 
         // TODO: ハンドラー($routeInfo[1])の型がClosureである場合の処理を追加する
-        if (is_array($routeInfo[1])) {
+        if (isset($routeInfo[1]) && is_array($routeInfo[1])) {
             // 認証状態によるリダイレクト処理
             $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
             $authMiddleware = new AuthMiddleware();

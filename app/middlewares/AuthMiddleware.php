@@ -18,12 +18,11 @@ class AuthMiddleware
         switch ($routeStatus) {
             case RouteAuthStatus::Required:
                 if (! $isAuth) {
-                    $response->redirect('/');
+                    $response->redirect('/sign_in');
                 }
                 return;
             case RouteAuthStatus::UnAuthenticated:
                 if ($isAuth) {
-                    // TODO: ホーム画面へ
                     $response->redirect('/');
                     exit;
                 }

@@ -70,7 +70,7 @@ class UserRepository extends AbstractMysqlRepository
      */
     public function fetchUserById(string $userId): UserEntity
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=0';
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=' . UserEntity::ACTIVE;
 
         $parameters = [':id' => $userId];
         $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
@@ -96,7 +96,7 @@ class UserRepository extends AbstractMysqlRepository
      */
     public function fetchUserByName(string $name): UserEntity|false
     {
-        $sql = 'SELECT id, user_name, email, password, status, login_at, created_at, updated_at FROM ' . $this->tableName . ' WHERE user_name=:user_name AND status=0';
+        $sql = 'SELECT id, user_name, email, password, status, login_at, created_at, updated_at FROM ' . $this->tableName . ' WHERE user_name=:user_name AND status=' . UserEntity::ACTIVE;
         $parameters = [':user_name' => $name];
 
         $record = $this->dbConnection->fetchFirstResult($sql, $parameters);

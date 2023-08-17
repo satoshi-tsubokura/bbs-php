@@ -3,22 +3,21 @@
 namespace App\Models\Entities;
 
 /**
- * USERSテーブルに対応したエンティティクラス
+ * BOARDSテーブルに対応したエンティティクラス
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class UserEntity
+class BoardEntity
 {
     public const ACTIVE = 0;
-    public const NOT_ACTIVE = 1;
+    public const ARCHIVED = 1;
 
     public function __construct(
         private ?int $id,
-        private string $userName,
-        private string $email,
-        private string $password,
+        private int $userId,
+        private string $title,
+        private ?string $description = '',
         private int $status = self::ACTIVE,
-        private ?\DateTime $loginAt = null,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
     ) {
@@ -29,29 +28,24 @@ class UserEntity
         return $this->id;
     }
 
-    public function getUserName(): string
+    public function getUserId(): int
     {
-        return $this->userName;
+        return $this->userId;
     }
 
-    public function getEmail(): string
+    public function getTitle(): string
     {
-        return $this->email;
+        return $this->title;
     }
 
-    public function getPassword(): string
+    public function getDescription(): ?string
     {
-        return $this->password;
+        return $this->description;
     }
 
     public function getStatus(): int
     {
         return $this->status;
-    }
-
-    public function getLoginAt(): ?\DateTime
-    {
-        return $this->loginAt;
     }
 
     public function getCreatedAt(): ?\DateTime

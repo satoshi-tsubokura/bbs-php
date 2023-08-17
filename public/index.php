@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Config\RouteAuthStatus;
 use App\Controllers\AuthenticationController;
+use App\Controllers\BoardController;
 use App\Controllers\UserController;
 use App\Middlewares\Request;
 use App\Middlewares\Response;
@@ -16,10 +17,11 @@ $router = new Router(
     $response,
     ['post', '/sign_up', [UserController::class, 'signup', RouteAuthStatus::UnAuthenticated]],
     ['get', '/sign_up', [UserController::class, 'viewSignup',  RouteAuthStatus::UnAuthenticated]],
-    ['get', '/sign_in', [AuthenticationController::class, 'viewSignin']],
+    ['get', '/sign_in', [AuthenticationController::class, 'viewSignin', RouteAuthStatus::UnAuthenticated]],
     ['post', '/sign_in', [AuthenticationController::class, 'signin', RouteAuthStatus::UnAuthenticated]],
     ['post', '/sign_out', [AuthenticationController::class, 'signout', RouteAuthStatus::Required]],
-    ['get', '/', [AuthenticationController::class, 'viewSignin'], RouteAuthStatus::Optional],
+    ['get', '/create/board', [BoardController::class, 'viewCreate', RouteAuthStatus::Required]],
+    ['post', '/create/board', [BoardController::class, 'create', RouteAuthStatus::Required]],
 );
 
 $router->resolve();
