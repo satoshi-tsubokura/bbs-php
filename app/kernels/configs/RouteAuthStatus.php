@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace App\Kernels\Configs;
 
 /**
  * ルーティングでの認証に関する状態を羅列したEnum

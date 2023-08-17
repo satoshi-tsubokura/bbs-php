@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Middlewares\Validations;
+namespace App\Kernels;
 
-use Valitron\Validator;
+use Valitron\Validator as Valitron;
 
 /**
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class RequestValidator
+class Validator
 {
     /**
      * 2つ以上のバリデーションルールの値を持つバリデーションの種類
@@ -21,10 +21,10 @@ class RequestValidator
     private const ERROR_MESSAGE_FILE_PATH = __DIR__ . '/../../config/error_msgs.php';
 
     private array $defaultErrorMsgs;
-    private Validator $validator;
+    private Valitron $validator;
 
     /**
-     * @param array $validationDataList リクエストパラメーターキー => ['name': string, 'rules': string, 'messages': ['ルール名': string]]
+     * @param array $validationDataList パラメーターキー => ['name': string, 'rules': string, 'messages': ['ルール名': string]]
      * ex) 'password' => [
      *  'name': 'パスワード',
      *  'rules': 'required|max:72' // 必須項目で最大72文字
@@ -32,12 +32,14 @@ class RequestValidator
      *    'required' => '必須項目です。'
      *  ]
      * ]
-     * @param array $requestParams 'リクエストパラメーターキー名' => mixed
+     * @param array{
+     *  'パラメーターキー名': mixed
+     * } $targetValues
      */
-    public function __construct($validationDataList = [], $requestParams = [])
+    public function __construct($validationDataList = [], $targetValues = [])
     {
-        Validator::lang("ja");
-        $this->validator = new Validator($requestParams);
+        Valitron::lang("ja");
+        $this->validator = new Valitron($targetValues);
         $this->defaultErrorMsgs = include(self::ERROR_MESSAGE_FILE_PATH) ?? [];
         // バリデーションルールの設定
         array_walk($validationDataList, fn ($data, $name) => $this->registerValidationData($name, $data));
@@ -77,7 +79,7 @@ class RequestValidator
 
             // バリデーションルールの設定
             $this->validator->rule($ruleName, $requestParamKey, $firstRuleField, ...$othersRuleFields);
-            
+
             // 独自メッセージの設定
             $message = $validationData['messages'][$ruleName] ?? $this->defaultErrorMsgs[$ruleName] ?? null;
             $requestParamName = $validationData['name'] ?? null;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Middlewares;
+namespace App\Kernels\Http;
 
 class Response
 {

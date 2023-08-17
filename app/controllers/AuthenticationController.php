@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Databases\Repositories\UserRepository;
-use App\Middlewares\Request;
-use App\Middlewares\Response;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
 use App\Services\AuthenticateService;
 
 class AuthenticationController extends AbstractController

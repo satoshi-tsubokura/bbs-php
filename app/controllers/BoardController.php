@@ -2,26 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Middlewares\Request;
-use App\Middlewares\Response;
-use App\Middlewares\CsrfMiddleware;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
+use App\Kernels\Securities\CsrfHandler;
 use App\Models\Databases\Repositories\BoardRepository;
 use App\Services\BoardService;
-use App\Utils\SessionManager;
+use App\Kernels\SessionManager;
 
 class BoardController extends AbstractController
 {
     private const CREATE_VIEW_PATH = __DIR__ . '/../views/pages/board_create.php';
     private BoardService $boardService;
     private SessionManager $session;
-    private CsrfMiddleware $csrfMiddleware;
+    private CsrfHandler $csrfMiddleware;
 
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
         $this->boardService = new BoardService(new BoardRepository());
         $this->session = new SessionManager();
-        $this->csrfMiddleware = new CsrfMiddleware();
+        $this->csrfMiddleware = new CsrfHandler();
 
         $this->validatorRules = [
           'title' => [

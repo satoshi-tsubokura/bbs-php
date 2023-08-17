@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Middlewares\Request;
-use App\Middlewares\Response;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
 use App\Models\Databases\Repositories\UserRepository;
 use App\Services\AuthenticateService;
 use App\Services\UserService;

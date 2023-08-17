@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Middleware;
 
-use App\Middlewares\Request;
+use App\Kernels\Http\Request;
 use PHPUnit\Framework\TestCase;
 
 final class RequestTest extends TestCase

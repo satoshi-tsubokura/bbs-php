@@ -3,9 +3,9 @@
 namespace Tests\Unit\Router;
 
 use App\Controllers\AbstractController;
-use App\Middlewares\Request;
-use App\Middlewares\Response;
-use App\Router\Router;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
+use App\Kernelsr\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Unit\CustomTestCase;
 

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Databases\Repositories\UserRepository;
 use App\Models\Entities\UserEntity;
-use App\Utils\SessionManager;
+use App\Kernels\SessionManager;
 
 class AuthenticateService
 {

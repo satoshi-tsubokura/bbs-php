@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Router;
+namespace App\Kernels;
 
-use App\Config\RouteAuthStatus;
+use App\Kernels\Configs\RouteAuthStatus;
 use App\Controllers\AbstractController;
 use App\Exceptions\InvalidTypeException;
-use App\Middlewares\AuthMiddleware;
-use App\Middlewares\Request;
-use App\Middlewares\Response;
+use App\Kernels\Auth\Authentication;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
 use FastRoute\Dispatcher;
 
 /**
@@ -87,8 +87,8 @@ class Router
         if (isset($routeInfo[1]) && is_array($routeInfo[1])) {
             // 認証状態によるリダイレクト処理
             $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
-            $authMiddleware = new AuthMiddleware();
-            $authMiddleware->handleRoute(new Response(), $routeAuth);
+            $auth = new Authentication();
+            $auth->handleRoute(new Response(), $routeAuth);
         }
 
         $this->runDispatchFunc($routeInfo, $httpMethod);
