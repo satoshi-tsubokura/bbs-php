@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Middleware;
+namespace Tests\Unit\Kernels\Http;
 
 use App\Kernels\Http\Request;
 use PHPUnit\Framework\TestCase;

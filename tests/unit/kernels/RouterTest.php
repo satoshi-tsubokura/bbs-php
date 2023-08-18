@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Router;
+namespace Tests\Unit\Kernels;
 
 use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
-use App\Kernelsr\Router;
+use App\Kernels\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Unit\CustomTestCase;
 

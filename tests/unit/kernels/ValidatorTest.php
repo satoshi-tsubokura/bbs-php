@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Middlewares\Validations;
+namespace Tests\Unit\Kernels;
 
 use App\Kernels\Validator;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -31,7 +31,7 @@ class ValidatorTest extends CustomTestCase
     public function testNoValidationRulesValidate(): void
     {
         $values = ['name' => 'validateRules'];
-        $validator = new Validator(requestParams: $values);
+        $validator = new Validator(targetValues: $values);
         $errorMsgs = $validator->validate();
 
         $this->assertCount(0, $errorMsgs);
