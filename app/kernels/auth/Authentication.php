@@ -3,6 +3,8 @@
 namespace App\Kernels\Auth;
 
 use App\Kernels\Configs\RouteAuthStatus;
+use App\Kernels\Http\Response;
+use App\Kernels\SessionManager;
 
 class Authentication
 {

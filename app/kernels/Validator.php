@@ -18,7 +18,7 @@ class Validator
      */
     public const ARRAY_FIELD_RULES = ['in', 'subset'];
 
-    private const ERROR_MESSAGE_FILE_PATH = __DIR__ . '/../../config/error_msgs.php';
+    private const ERROR_MESSAGE_FILE_PATH = __DIR__ . '/../config/error_msgs.php';
 
     private array $defaultErrorMsgs;
     private Valitron $validator;

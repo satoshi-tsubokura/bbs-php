@@ -8,7 +8,7 @@ use App\Controllers\BoardController;
 use App\Controllers\UserController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
-use App\Kernelsr\Router;
+use App\Kernels\Router;
 
 $request = new Request();
 $response = new Response();
