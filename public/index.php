@@ -2,13 +2,13 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Config\RouteAuthStatus;
+use App\Kernels\Configs\RouteAuthStatus;
 use App\Controllers\AuthenticationController;
 use App\Controllers\BoardController;
 use App\Controllers\UserController;
-use App\Middlewares\Request;
-use App\Middlewares\Response;
-use App\Router\Router;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
+use App\Kernels\Router;
 
 $request = new Request();
 $response = new Response();

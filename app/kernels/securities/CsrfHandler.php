@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Middlewares;
+namespace App\Kernels\Securities;
 
-use App\Utils\SessionManager;
+use App\Kernels\SessionManager;
 
-class CsrfMiddleware
+class CsrfHandler
 {
     private SessionManager $session;
     private const SESSION_KEY = 'csrf_token';
@@ -13,6 +13,7 @@ class CsrfMiddleware
     {
         $this->session = new SessionManager();
     }
+
     public function create(): string
     {
         $token_bytes = 32;

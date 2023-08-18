@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Middlewares;
-
-require_once __DIR__ . '/../utils/stringUtils.php';
-
-use function App\Utils\trimSpaceStr;
+namespace App\Kernels\Http;
 
 /**
  * リクエストに関する値を扱うクラス
@@ -44,6 +40,6 @@ class Request
             $plainParameters = $_POST;
         }
 
-        return array_map(fn ($para) => trimSpaceStr($para), $plainParameters);
+        return array_map(fn ($para) => trim($para, "　 \n\r\t\v\x00"), $plainParameters);
     }
 }
