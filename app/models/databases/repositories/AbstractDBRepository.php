@@ -3,7 +3,7 @@
 namespace App\Models\Databases\Repositories;
 
 use App\Models\Databases\DBConnection;
-use App\Utils\AppLogger;
+use App\Kernels\AppLogger;
 
 abstract class AbstractDBRepository
 {

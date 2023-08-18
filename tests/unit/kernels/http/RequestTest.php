@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Middleware;
+namespace Tests\Unit\Kernels\Http;
 
-use App\Middlewares\Request;
+use App\Kernels\Http\Request;
 use PHPUnit\Framework\TestCase;
 
 final class RequestTest extends TestCase

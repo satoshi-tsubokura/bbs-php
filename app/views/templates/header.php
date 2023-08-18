@@ -1,10 +1,10 @@
 <?php
 
-use App\Utils\AuthUtil;
+use App\Kernels\Auth\Authentication;
 
 use function App\Utils\getAppConfig;
 
-$auth = new AuthUtil();
+$auth = new Authentication();
 ?>
 <header class="l-header">
   <div class="l-header__inner">

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Middlewares\Validations;
+namespace Tests\Unit\Kernels;
 
-use App\Middlewares\Validations\RequestValidator;
+use App\Kernels\Validator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Unit\CustomTestCase;
 
-class RequestValidatorTest extends CustomTestCase
+class ValidatorTest extends CustomTestCase
 {
     // リクエストパラメーターがない場合
     public function testNoReqParameterValidate(): void
@@ -20,7 +20,7 @@ class RequestValidatorTest extends CustomTestCase
             ]
           ],
         ];
-        $validator = new RequestValidator($rules);
+        $validator = new Validator($rules);
         $errorMsgs = $validator->validate();
 
         $expeced = ['requiredTest' => ['必須項目です。']];
@@ -31,7 +31,7 @@ class RequestValidatorTest extends CustomTestCase
     public function testNoValidationRulesValidate(): void
     {
         $values = ['name' => 'validateRules'];
-        $validator = new RequestValidator(requestParams: $values);
+        $validator = new Validator(targetValues: $values);
         $errorMsgs = $validator->validate();
 
         $this->assertCount(0, $errorMsgs);
@@ -52,7 +52,7 @@ class RequestValidatorTest extends CustomTestCase
 
         $values = ['missingName' => 0];
         $this->expectException(\InvalidArgumentException::class);
-        $validator = new RequestValidator($rules, $values);
+        $validator = new Validator($rules, $values);
     }
 
     public function testMissingRulesValidate(): void
@@ -64,7 +64,7 @@ class RequestValidatorTest extends CustomTestCase
         ];
 
         $values = ['missingRules' => 0];
-        $validator = new RequestValidator($rules, $values);
+        $validator = new Validator($rules, $values);
         $errorMsgs = $validator->validate();
 
         $this->assertCount(0, $errorMsgs);
@@ -79,7 +79,7 @@ class RequestValidatorTest extends CustomTestCase
         ];
 
         $values = ['missingRules' => 0];
-        $validator = new RequestValidator($rules, $values);
+        $validator = new Validator($rules, $values);
         $errorMsgs = $validator->validate();
 
         $this->assertCount(0, $errorMsgs);
@@ -89,7 +89,7 @@ class RequestValidatorTest extends CustomTestCase
     #[DataProvider('targetPassValidateDataProvider')]
     public function testPassValidate(array $targetValues, array $rules): void
     {
-        $validator = new RequestValidator($rules, $targetValues);
+        $validator = new Validator($rules, $targetValues);
 
         $errorMsgs = $validator->validate();
 
@@ -100,7 +100,7 @@ class RequestValidatorTest extends CustomTestCase
     #[DataProvider('targetFalureValidateDataProvider')]
     public function testHasErrorMsgsValidate(array $targetValues, array $rules, $expected)
     {
-        $validator = new RequestValidator($rules, $targetValues);
+        $validator = new Validator($rules, $targetValues);
 
         $errorMsgs = $validator->validate();
         $this->assertEquals($expected, $errorMsgs);

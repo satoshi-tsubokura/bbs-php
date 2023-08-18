@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Kernels;
 
-use App\Middlewares\Request;
-use App\Middlewares\Response;
-use App\Middlewares\Validations\RequestValidator;
-use App\Utils\AppLogger;
+use App\Kernels\Http\Request;
+use App\Kernels\Http\Response;
+use App\Kernels\Validator;
+use App\Kernels\AppLogger;
 
 abstract class AbstractController
 {
@@ -25,7 +25,7 @@ abstract class AbstractController
      */
     protected function validate(array $parameters): array
     {
-        $validator = new RequestValidator($this->validatorRules, $parameters);
+        $validator = new Validator($this->validatorRules, $parameters);
         return $validator->validate();
     }
 }

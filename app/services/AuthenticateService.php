@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Databases\Repositories\UserRepository;
 use App\Models\Entities\UserEntity;
-use App\Utils\SessionManager;
+use App\Kernels\SessionManager;
 
 class AuthenticateService
 {
@@ -36,22 +36,10 @@ class AuthenticateService
     public function authenticate(UserEntity $user): void
     {
         $session = new SessionManager();
-        $session->start();
         $session->set('user_id', $user->getId());
         $session->set('user_name', $user->getUserName());
+
         // セッション固定化攻撃対策
         $session->reset();
-    }
-
-    /**
-     * 非認証状態（ログアウト）処理
-     *
-     * @return void
-     */
-    public function unAuthenticate(): void
-    {
-        $session = new SessionManager();
-        $session->start();
-        $session->destroy();
     }
 }

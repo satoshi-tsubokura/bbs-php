@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Middlewares;
+namespace App\Kernels\Auth;
 
-use App\Config\RouteAuthStatus;
-use App\Utils\AuthUtil;
+use App\Kernels\Configs\RouteAuthStatus;
+use App\Kernels\Http\Response;
+use App\Kernels\SessionManager;
 
-class AuthMiddleware
+class Authentication
 {
     /**
      * 現在の認証状態がルートの認証条件を満たしているか
      */
-    public static function handleRoute(Response $response, RouteAuthStatus $routeStatus): void
+    public function handleRoute(Response $response, RouteAuthStatus $routeStatus): void
     {
-        $authUtil = new AuthUtil();
-        $isAuth = $authUtil->isAuthenticated();
+        $isAuth = $this->isAuthenticated();
 
         switch ($routeStatus) {
             case RouteAuthStatus::Required:
@@ -31,5 +31,20 @@ class AuthMiddleware
                 // 認証任意のルートに関しては何もしない
                 return;
         }
+    }
+
+    /**
+     *  認証済みか否かを返すメソッド
+     *
+     * @return boolean 認証済みであるか
+     */
+    public function isAuthenticated(): bool
+    {
+        $session = new SessionManager();
+        if ($session->hasSession()) {
+            return $session->get('user_id') !== null;
+        }
+
+        return false;
     }
 }
