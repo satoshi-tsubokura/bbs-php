@@ -80,13 +80,13 @@ class BoardController extends AbstractController
 
     public function index()
     {
-        $page = (int) ($this->request->getAllParameters()['page'] ?? 1);
+        $currentPage = (int) ($this->request->getAllParameters()['page'] ?? 1);
         $maxBoardsNum = getAppConfig('maxBoardsNum');
-        $boards = $this->boardService->fetchBoards($page, $maxBoardsNum);
+        $boards = $this->boardService->fetchBoards($currentPage, $maxBoardsNum);
 
         // ページネーション処理
         $allBoardsNum = $this->boardService->countAllBoards();
-        $maxPage = ceil($allBoardsNum / $maxBoardsNum);
+        $maxPage = (int) ceil($allBoardsNum / $maxBoardsNum);
 
         require_once __DIR__ . '/../views/pages/index.php';
     }

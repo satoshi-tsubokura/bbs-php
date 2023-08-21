@@ -2,8 +2,8 @@
 <body>
   <?php include __DIR__ . '/../templates/header.php' ?>
   <div class="l-inner">
-    <section class="p-board-create">
-      <h1 class="p-board-create__ttl">スレッド新規作成</h1>
+    <section class="c-section p-board-create">
+      <h1 class="c-section__ttl p-board-create__ttl">スレッド新規作成</h1>
       <form action="/create/board" method="POST" class="p-board-create__form">
         <!-- エラーメッセージ(フォーム全体) -->
         <?php if(isset($errorMsgs['messages'])) { ?>
