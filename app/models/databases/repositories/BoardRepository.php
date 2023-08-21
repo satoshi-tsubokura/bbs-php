@@ -59,4 +59,38 @@ class BoardRepository extends AbstractMysqlRepository
 
         return $this->dbConnection->lastInsertId();
     }
+
+    public function fetchBoards(int $limit, int $offset): array
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE status=' . BoardEntity::ACTIVE . ' ORDER BY updated_at desc LIMIT :limit OFFSET :offset';
+
+        $parameters = [
+          ':limit' => $limit,
+          ':offset' => $offset
+        ];
+
+        $records = $this->dbConnection->fetchResultsAll($sql, $parameters);
+        $this->logger->info($sql);
+
+        // BoardEntityに変換
+        foreach ($records as $record) {
+            $createdAt = new \DateTime($record['created_at']);
+            $updatedAt = new \DateTime($record['updated_at']);
+            // TODO FETCHモードをFETCH_OBJに変えることで対策できないか検討
+            $boards[] = new BoardEntity($record['id'], $record['user_id'], $record['title'], $record['description'], $record['status'], $createdAt, $updatedAt);
+        }
+
+        return $boards;
+    }
+
+    public function countAllBoards(): int
+    {
+        $countCol = 'boardNum';
+        $sql = 'SELECT COUNT(*) AS ' . $countCol . ' FROM ' . $this->tableName  . ' WHERE status=' . BoardEntity::ACTIVE;
+
+        $result = $this->dbConnection->fetchFirstResult($sql);
+        $this->logger->info($sql);
+        return $result[$countCol];
+
+    }
 }

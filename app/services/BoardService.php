@@ -45,4 +45,23 @@ class BoardService
 
         return $errorMsgs ?? [];
     }
+
+    /**
+     * 指定したページのスレッド一覧を取得する
+     *
+     * @param integer $page
+     * @param integer $max 最大スレッド数
+     * @return array BoardEntityインスタンスを格納した配列
+     * @throws \PDOException
+     */
+    public function fetchBoards(int $page, int $max): array
+    {
+        $offset = ($page - 1) * $max;
+        return $this->boardRepository->fetchBoards($max, $offset) ?? [];
+    }
+
+    public function countAllBoards(): int
+    {
+        return $this->boardRepository->countAllBoards();
+    }
 }
