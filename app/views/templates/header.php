@@ -8,12 +8,21 @@ $auth = new Authentication();
 ?>
 <header class="l-header">
   <div class="l-header__inner">
-    <h1><a href=""><?= getAppConfig('appName') ?></a></h1>
+    <h1 class="l-header__ttl"><a href="/"><?= getAppConfig('appName') ?></a></h1>
     <div class="l-header__navs">
       <nav class="l-header__gnav">
-        <a href="" class="l-header__link">
-          掲示板一覧
-        </a>
+        <ul class="p-row-groups">
+          <li>
+            <a href="/" class="l-header__link">
+              掲示板一覧
+            </a>
+          </li>
+          <li>
+            <a href="/create/board" class="l-header__link">
+              掲示板作成
+            </a>
+          </li>
+        </ul>
       </nav>
       <nav class="l-header__hnav">
     <?php
@@ -25,7 +34,7 @@ $auth = new Authentication();
     <?php
       } else {
           ?>
-        <ul class="p-btn-groups">
+        <ul class="p-row-groups">
           <li>
             <a href="/sign_in" class="c-btn c-btn--primary l-header__btn">ログイン</a>
           </li>

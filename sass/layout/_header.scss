@@ -5,6 +5,11 @@
   font-size: 1.8rem;
   box-shadow: 0px 5px 15px -5px #777777;
 
+  &__ttl {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
   &__inner {
     padding: 0 30px;
     height: 100%;

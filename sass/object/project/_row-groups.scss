@@ -1,10 +1,9 @@
-.p-btn-groups {
+.p-row-groups {
   display: flex;
   justify-content: center;
   text-align: center;
   flex-wrap: nowrap;
-    *:not(:last-child) {
-      margin-right: 20px;
-    }
-  
+  *:not(:last-child) {
+    margin-right: 20px;
+  }
 }

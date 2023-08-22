@@ -22,6 +22,7 @@ $router = new Router(
     ['post', '/sign_out', [AuthenticationController::class, 'signout', RouteAuthStatus::Required]],
     ['get', '/create/board', [BoardController::class, 'viewCreate', RouteAuthStatus::Required]],
     ['post', '/create/board', [BoardController::class, 'create', RouteAuthStatus::Required]],
+    ['get', '/', [BoardController::class, 'index', RouteAuthStatus::Optional]],
 );
 
 $router->resolve();

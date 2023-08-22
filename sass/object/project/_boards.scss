@@ -1,0 +1,32 @@
+.p-boards {
+  &__list {
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px 30px;
+    margin-bottom: 30px;
+  }
+
+  &__card {
+    background-color: #fff;
+    display: block;
+  }
+
+  &__board-ttl {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    color: #1867c0;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  &__created {
+    font-size: 1.2rem;
+  }
+
+  &__pagination {
+    // width: 
+  }
+}
