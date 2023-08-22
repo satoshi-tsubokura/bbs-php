@@ -4,6 +4,9 @@
   <div class="l-inner">
     <section class="c-section p-boards">
       <h1 class="c-section__ttl p-boards__ttl">スレッド一覧</h1>
+      <div>
+        <button ></button>
+      </div>
       <ul class="c-card p-boards__list">
         <?php
           foreach($boards as $board) {
@@ -15,7 +18,7 @@
             </h3>
             <!-- TODO -->
             <!-- <span class="p-boards__updated">最終書き込み日: </span> -->
-            <span class="p-boards__created">スレ立て日: <?= $board->getCreatedAt()->format('Y年m月d月 h:i:s') ?></span>
+            <span class="p-boards__created">作成日: <?= $board->getCreatedAt()->format('Y年m月d月 h:i:s') ?></span>
           </div>
         </li>
         <?php
