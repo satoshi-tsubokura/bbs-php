@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+require_once __DIR__ . '/../utils/getAppConfig.php';
+
 use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
@@ -9,6 +11,8 @@ use App\Kernels\Securities\CsrfHandler;
 use App\Models\Databases\Repositories\BoardRepository;
 use App\Services\BoardService;
 use App\Kernels\SessionManager;
+
+use function App\Utils\getAppConfig;
 
 class BoardController extends AbstractController
 {
@@ -72,5 +76,18 @@ class BoardController extends AbstractController
     {
         $csrfToken = $this->csrfMiddleware->create();
         require_once __DIR__ . '/../views/pages/board_create.php';
+    }
+
+    public function index()
+    {
+        $currentPage = (int) ($this->request->getAllParameters()['page'] ?? 1);
+        $maxBoardsNum = getAppConfig('maxBoardsNum');
+        $boards = $this->boardService->fetchBoards($currentPage, $maxBoardsNum);
+
+        // ページネーション処理
+        $allBoardsNum = $this->boardService->countAllBoards();
+        $maxPage = (int) ceil($allBoardsNum / $maxBoardsNum);
+
+        require_once __DIR__ . '/../views/pages/index.php';
     }
 }

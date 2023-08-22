@@ -8,10 +8,10 @@ $auth = new Authentication();
 ?>
 <header class="l-header">
   <div class="l-header__inner">
-    <h1><a href=""><?= getAppConfig('appName') ?></a></h1>
+    <h1><a href="/"><?= getAppConfig('appName') ?></a></h1>
     <div class="l-header__navs">
       <nav class="l-header__gnav">
-        <a href="" class="l-header__link">
+        <a href="/" class="l-header__link">
           掲示板一覧
         </a>
       </nav>

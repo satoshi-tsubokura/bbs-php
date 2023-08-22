@@ -58,6 +58,7 @@ class DBConnection implements IConnection
     {
         $this->db = new \PDO($this->dsn, $this->username, $this->password);
         $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     public function close(): void

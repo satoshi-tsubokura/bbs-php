@@ -2,7 +2,7 @@
 <body>
   <?php include __DIR__ . '/../templates/header.php' ?>
   <div class="l-inner">
-    <section class="c-card p-signinup">
+    <section class="c-section c-card p-signinup">
       <div class="p-signinup__ttl">新規登録</div>
        <?php if(isset($errorMsgs['messages'])) { ?>
           <ul class="p-signinup__errors">
