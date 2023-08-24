@@ -19,8 +19,7 @@ include __DIR__ . '/../templates/head.php';
             <h3 class="p-boards__board-ttl">
               <a  href="/board/<?= h($board->getId()) ?>"><?= $board->getTitle() ?></a>
             </h3>
-            <!-- TODO -->
-            <!-- <span class="p-boards__updated">最終書き込み日: </span> -->
+            <span class="p-boards__updated">最終書き込み日: <?= h($board->getUpdatedAt()->format('Y年m月d月 h:i:s')) ?></span>
             <span class="p-boards__created">作成日: <?= h($board->getCreatedAt()->format('Y年m月d月 h:i:s')) ?></span>
           </div>
         </li>

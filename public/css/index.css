@@ -657,7 +657,8 @@ input[type=file] {
 .p-boards__board-ttl:hover {
   color: #333;
 }
-.p-boards__created {
+.p-boards__created, .p-boards__updated {
+  display: block;
   font-size: 1.2rem;
 }
 

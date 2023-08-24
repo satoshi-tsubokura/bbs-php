@@ -23,7 +23,8 @@
     }
   }
 
-  &__created {
+  &__created, &__updated {
+    display: block;
     font-size: 1.2rem;
   }
 }
