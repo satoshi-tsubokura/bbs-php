@@ -418,6 +418,11 @@ input {
   height: 2.5rem;
 }
 
+input[type=file] {
+  border: none;
+  background-color: transparent;
+}
+
 .l-header {
   background-color: rgb(73, 73, 73);
   color: #fff;

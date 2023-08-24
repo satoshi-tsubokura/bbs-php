@@ -83,6 +83,20 @@ class BoardRepository extends AbstractMysqlRepository
         return $boards;
     }
 
+    public function fetchById(int $id): BoardEntity
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=' . BoardEntity::ACTIVE;
+
+        $parameters = [':id' => $id];
+
+        $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
+
+        $createdAt = new \DateTime($record['created_at']);
+        $updatedAt = new \DateTime($record['updated_at']);
+
+        return new BoardEntity($record['id'], $record['user_id'], $record['title'], $record['description'], $record['status'], $createdAt, $updatedAt);
+    }
+
     public function countAllBoards(): int
     {
         $countCol = 'boardNum';

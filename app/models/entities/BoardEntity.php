@@ -55,6 +55,6 @@ class BoardEntity
 
     public function getUpdatedAt(): ?\DateTime
     {
-        return $this->loginAt;
+        return $this->updatedAt;
     }
 }

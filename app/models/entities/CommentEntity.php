@@ -21,6 +21,8 @@ class CommentEntity
         private int $status = self::ACTIVE,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
+        // USERSテーブルリレーション
+        private ?UserEntity $user = null
     ) {
     }
 
@@ -61,6 +63,11 @@ class CommentEntity
 
     public function getUpdatedAt(): ?\DateTime
     {
-        return $this->loginAt;
+        return $this->updatedAt;
+    }
+
+    public function getUser(): ?UserEntity
+    {
+        return $this->user;
     }
 }
