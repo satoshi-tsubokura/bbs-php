@@ -69,7 +69,7 @@ class CommentRepository extends AbstractMysqlRepository
     public function fetchAllByBoardId(int $boardId): array
     {
         // statusカラムの値関係なく取得する
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE board_id=:board_id';
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE board_id=:board_id ORDER BY comment_no ASC';
 
         $parameters = [':board_id' => $boardId];
         $records = $this->dbConnection->fetchResultsAll($sql, $parameters);
