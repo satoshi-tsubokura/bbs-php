@@ -40,6 +40,6 @@ class Request
             $plainParameters = $_POST;
         }
 
-        return array_map(fn ($para) => trim($para, "　 \n\r\t\v\x00"), $plainParameters);
+        return array_map(fn ($para) => preg_replace('/\A[　 \n\r\t\v\x00]*|[　 \n\r\t\v\x00]*\z/u', '', $para), $plainParameters);
     }
 }
