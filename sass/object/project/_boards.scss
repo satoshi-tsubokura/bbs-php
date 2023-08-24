@@ -10,6 +10,7 @@
   &__card {
     background-color: #fff;
     display: block;
+    word-wrap: break-word;
   }
 
   &__board-ttl {
@@ -24,9 +25,5 @@
 
   &__created {
     font-size: 1.2rem;
-  }
-
-  &__pagination {
-    // width: 
   }
 }

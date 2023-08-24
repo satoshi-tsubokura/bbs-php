@@ -647,6 +647,7 @@ input[type=file] {
 .p-boards__card {
   background-color: #fff;
   display: block;
+  word-wrap: break-word;
 }
 .p-boards__board-ttl {
   font-size: 2.4rem;
@@ -659,6 +660,7 @@ input[type=file] {
 .p-boards__created {
   font-size: 1.2rem;
 }
+
 .p-board {
   font-size: 1.6rem;
 }
