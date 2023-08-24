@@ -1,8 +1,7 @@
 <?php
-
 use App\Kernels\Auth\Authentication;
 
-use function App\Utils\getAppConfig;
+use function App\Kernels\Utils\getAppConfig;
 
 $auth = new Authentication();
 ?>

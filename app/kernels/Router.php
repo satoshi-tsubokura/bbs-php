@@ -173,9 +173,10 @@ class Router
                         throw new InvalidTypeException('AbstractControllerを継承しいないクラスを実行できません。');
                     }
 
+
                     // Closureに変換
                     $handler = [$controller, $handler[1]](...$vars);
-                    break;
+                    return;
                 }
 
                 $handler(...$vars);

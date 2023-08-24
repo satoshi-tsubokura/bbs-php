@@ -7,6 +7,7 @@ use App\Models\Databases\Repositories\UserRepository;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Kernels\SessionManager;
+use App\Models\Databases\DBConnection;
 use App\Services\AuthenticateService;
 
 class AuthenticationController extends AbstractController
@@ -17,7 +18,7 @@ class AuthenticationController extends AbstractController
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
-        $this->authService = new AuthenticateService(new UserRepository());
+        $this->authService = new AuthenticateService(new UserRepository(new DBConnection()));
 
         $this->validatorRules = [
           'name' => [

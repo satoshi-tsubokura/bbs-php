@@ -14,7 +14,7 @@
         <li class="p-boards__item">
           <div class="c-card p-boards__card">
             <h3 class="p-boards__board-ttl">
-              <a  href="/"><?= $board->getTitle() ?></a>
+              <a  href="/board/<?= $board->getId() ?>"><?= $board->getTitle() ?></a>
             </h3>
             <!-- TODO -->
             <!-- <span class="p-boards__updated">最終書き込み日: </span> -->

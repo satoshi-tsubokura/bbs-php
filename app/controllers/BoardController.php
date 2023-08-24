@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-require_once __DIR__ . '/../utils/getAppConfig.php';
-
 use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
@@ -11,21 +9,22 @@ use App\Kernels\Securities\CsrfHandler;
 use App\Models\Databases\Repositories\BoardRepository;
 use App\Services\BoardService;
 use App\Kernels\SessionManager;
+use App\Models\Databases\DBConnection;
 
-use function App\Utils\getAppConfig;
+use function App\Kernels\Utils\getAppConfig;
 
 class BoardController extends AbstractController
 {
     private BoardService $boardService;
     private SessionManager $session;
-    private CsrfHandler $csrfMiddleware;
+    private CsrfHandler $csrfHandler;
 
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
-        $this->boardService = new BoardService(new BoardRepository());
+        $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
         $this->session = new SessionManager();
-        $this->csrfMiddleware = new CsrfHandler();
+        $this->csrfHandler = new CsrfHandler();
 
         $this->validatorRules = [
           'title' => [
@@ -46,7 +45,7 @@ class BoardController extends AbstractController
         $errorMsgs = $this->validate($parameters);
 
         // csrf検証
-        if (! $this->csrfMiddleware->verify($parameters['token'])) {
+        if (! $this->csrfHandler->verify($parameters['token'])) {
             $errorMsgs = ['messages' => ['不正なアクセスを確認いたしました。']];
         }
 
@@ -54,7 +53,7 @@ class BoardController extends AbstractController
             // バリデーションエラーがなければ、登録処理を行う
             if (count($errorMsgs) === 0) {
                 $this->session->start();
-                $userId = $this->session->get('user_id');
+                $userId = $this->session->get(getAppConfig('sessionAuthKey'));
                 $errorMsgs = $this->boardService->create($parameters['title'], $parameters['description'], $userId);
             }
 
@@ -68,13 +67,13 @@ class BoardController extends AbstractController
             $this->logger->error("スレッド登録に失敗: {$e->getMessage()}", $e->getTrace());
 
             // TODO: エラー画面
-            header('Location: /error');
+            $this->response->redirect("/error");
         }
     }
 
     public function viewCreate(array $originValues = [], array $errorMsgs = []): void
     {
-        $csrfToken = $this->csrfMiddleware->create();
+        $csrfToken = $this->csrfHandler->create();
         require_once __DIR__ . '/../views/pages/board_create.php';
     }
 
@@ -89,5 +88,11 @@ class BoardController extends AbstractController
         $maxPage = (int) ceil($allBoardsNum / $maxBoardsNum);
 
         require_once __DIR__ . '/../views/pages/index.php';
+    }
+
+    public function listComments(int $boardId): void
+    {
+        $csrfToken = $this->csrfHandler->create();
+        require_once __DIR__ . '/../views/pages/board.php';
     }
 }

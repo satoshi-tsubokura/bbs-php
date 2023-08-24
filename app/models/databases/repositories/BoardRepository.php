@@ -91,6 +91,15 @@ class BoardRepository extends AbstractMysqlRepository
         $result = $this->dbConnection->fetchFirstResult($sql);
         $this->logger->info($sql);
         return $result[$countCol];
+    }
 
+    public function updatedAt(int $id): bool
+    {
+        $sql = 'UPDATE ' . $this->tableName . ' SET updated_at=CURRENT_TIMESTAMP() WHERE id=:id';
+
+        $parameters = [':id' => $id];
+
+        $this->logger->info($sql);
+        return $this->dbConnection->executeQuery($sql, $parameters);
     }
 }
