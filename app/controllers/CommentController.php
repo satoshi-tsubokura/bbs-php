@@ -28,11 +28,7 @@ class CommentController extends AbstractController
             'comment' => [
                 'name' => 'コメント',
                 'rules' => ['required','lengthMax:1000']
-            ],
-            // 'images' => [
-            //     'name' => '画像',
-            //     'rules' => ['array', 'countMax:10', 'image']
-            // ]
+            ]
         ];
     }
 
@@ -58,5 +54,11 @@ class CommentController extends AbstractController
             // TODO: エラー画面
             $this->response->redirect("/error");
         }
+    }
+
+    public function index(int $boardId): void
+    {
+        $csrfToken = $this->csrfHandler->create();
+        require_once __DIR__ . '/../views/pages/board.php';
     }
 }

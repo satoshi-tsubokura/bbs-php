@@ -89,10 +89,4 @@ class BoardController extends AbstractController
 
         require_once __DIR__ . '/../views/pages/index.php';
     }
-
-    public function listComments(int $boardId): void
-    {
-        $csrfToken = $this->csrfHandler->create();
-        require_once __DIR__ . '/../views/pages/board.php';
-    }
 }

@@ -24,8 +24,8 @@ $router = new Router(
     ['get', '/create/board', [BoardController::class, 'viewCreate', RouteAuthStatus::Required]],
     ['post', '/create/board', [BoardController::class, 'create', RouteAuthStatus::Required]],
     ['get', '/', [BoardController::class, 'index', RouteAuthStatus::Optional]],
-    ['get', '/board/{boardId:\d+}', [BoardController::class, 'listComments', RouteAuthStatus::Optional]],
-    ['post', '/board/{boardId:\d+}', [CommentController::class, 'post', RouteAuthStatus::Optional]],
+    ['get', '/board/{boardId:\d+}', [CommentController::class, 'index', RouteAuthStatus::Optional]],
+    ['post', '/board/{boardId:\d+}', [CommentController::class, 'post', RouteAuthStatus::Required]],
 );
 
 $router->resolve();
