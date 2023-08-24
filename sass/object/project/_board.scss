@@ -1,0 +1,19 @@
+.p-board {
+  font-size: 1.6rem;
+
+  &__heading {
+    margin-bottom: 30px;
+  }
+
+  &__ttl {
+    margin-bottom: 10px;
+  }
+
+  &__description {
+    font-size: 1.8rem;
+  }
+
+  &__comments {
+    margin-bottom: 40px;
+  }
+}

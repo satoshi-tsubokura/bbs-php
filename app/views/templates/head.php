@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../../utils/getAppConfig.php';
-use function App\Utils\getAppConfig;
+use function App\Kernels\Utils\getAppConfig;
 
 ?>
 <!DOCTYPE html>
