@@ -7,7 +7,7 @@
        <?php if(isset($errorMsgs['messages'])) { ?>
           <ul class="p-signinup__errors">
           <?php foreach($errorMsgs['messages'] as $msg) { ?>
-            <li class="c-error-msg"><?= $msg ?></li>
+            <li class="c-error-msg"><?= h($msg) ?></li>
           <?php
           }
            ?>
@@ -26,7 +26,7 @@
             <?php if(isset($errorMsgs['name'])) { ?>
               <ul>
               <?php foreach($errorMsgs['name'] as $msg) { ?>
-                <li class="c-error-msg"><?= $msg ?></li>
+                <li class="c-error-msg"><?= h($msg) ?></li>
               <?php
               }
                 ?>
@@ -61,7 +61,7 @@
             <?php if(isset($errorMsgs['password'])) { ?>
               <ul>
               <?php foreach($errorMsgs['password'] as $msg) { ?>
-                <li class="c-error-msg"><?= $msg ?></li>
+                <li class="c-error-msg"><?= h($msg) ?></li>
               <?php
               }
                 ?>

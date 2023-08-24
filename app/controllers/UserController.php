@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Kernels\AbstractController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
+use App\Models\Databases\DBConnection;
 use App\Models\Databases\Repositories\UserRepository;
 use App\Services\AuthenticateService;
 use App\Services\UserService;
@@ -17,7 +18,7 @@ class UserController extends AbstractController
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
-        $userRepo = new UserRepository();
+        $userRepo = new UserRepository(new DBConnection());
         $this->userService = new UserService($userRepo);
         $this->authService = new AuthenticateService($userRepo);
 
@@ -69,14 +70,15 @@ class UserController extends AbstractController
             } else {
                 // 新規登録成功
                 $this->authService->authenticate($user);
-                // TODO: 掲示板一覧画面へ
-                header('Location: /');
+
+                // 掲示板一覧画面へリダイレクト
+                $this->response->redirect('/');
             }
         } catch(\PDOException $e) {
             $this->logger->error("ユーザー登録に失敗: {$e->getMessage()}", $e->getTrace());
 
             // TODO: エラー画面
-            header('Location: /error');
+            $this->response->redirect("/error");
         }
     }
 

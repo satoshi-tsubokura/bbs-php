@@ -32,6 +32,7 @@ class DBConnection implements IConnection
             $dsnOptions['port'] ?? $_ENV['DB_PORT'],
             $dsnOptions['charset'] ?? $_ENV['DB_CHARSET']
         );
+        $this->connect();
     }
 
     public function __destruct()
@@ -64,6 +65,21 @@ class DBConnection implements IConnection
     public function close(): void
     {
         $this->db = null;
+    }
+
+    public function transaction(): bool
+    {
+        return $this->db->beginTransaction();
+    }
+
+    public function commit(): bool
+    {
+        return $this->db->commit();
+    }
+
+    public function rollback(): bool
+    {
+        return $this->db->rollback();
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Models\Databases\Repositories\UserRepository;
 use App\Models\Entities\UserEntity;
 use App\Kernels\SessionManager;
 
+use function App\Kernels\Utils\getAppConfig;
+
 class AuthenticateService
 {
     public function __construct(
@@ -36,8 +38,8 @@ class AuthenticateService
     public function authenticate(UserEntity $user): void
     {
         $session = new SessionManager();
-        $session->set('user_id', $user->getId());
-        $session->set('user_name', $user->getUserName());
+        $session->set(getAppConfig('sessionAuthKey'), $user->getId());
+        $session->set(getAppConfig('sessionUserNameKey'), $user->getUserName());
 
         // セッション固定化攻撃対策
         $session->reset();

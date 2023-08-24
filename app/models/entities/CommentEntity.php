@@ -7,7 +7,7 @@ namespace App\Models\Entities;
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class BoardEntity
+class CommentEntity
 {
     public const ACTIVE = 0;
     public const ARCHIVED = 1;
@@ -15,11 +15,14 @@ class BoardEntity
     public function __construct(
         private ?int $id,
         private int $userId,
-        private string $title,
-        private ?string $description = '',
+        private int $boardId,
+        private int $commentNo,
+        private string $commentBody,
         private int $status = self::ACTIVE,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
+        // USERSテーブルリレーション
+        private ?UserEntity $user = null
     ) {
     }
 
@@ -33,14 +36,19 @@ class BoardEntity
         return $this->userId;
     }
 
-    public function getTitle(): string
+    public function getBoardId(): int
     {
-        return $this->title;
+        return $this->boardId;
     }
 
-    public function getDescription(): ?string
+    public function getCommentNo(): int
     {
-        return $this->description;
+        return $this->commentNo;
+    }
+
+    public function getCommentBody(): string
+    {
+        return $this->commentBody;
     }
 
     public function getStatus(): int
@@ -56,5 +64,10 @@ class BoardEntity
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
+    }
+
+    public function getUser(): ?UserEntity
+    {
+        return $this->user;
     }
 }

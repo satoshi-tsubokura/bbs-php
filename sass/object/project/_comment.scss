@@ -1,0 +1,16 @@
+.p-comment {
+  $comment_font_size: 1.6rem;
+  font-size: $comment_font_size;
+  border-bottom: 1px solid #333;
+  padding: 20px 0;
+  word-wrap: break-word;
+
+  &__meta {
+    font-weight: bold;
+  }
+
+  &__body {
+    margin: 10px 0;
+    padding: 0 $comment_font_size;
+  }
+}

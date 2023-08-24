@@ -6,6 +6,8 @@ use App\Kernels\Configs\RouteAuthStatus;
 use App\Kernels\Http\Response;
 use App\Kernels\SessionManager;
 
+use function App\Kernels\Utils\getAppConfig;
+
 class Authentication
 {
     /**
@@ -42,7 +44,7 @@ class Authentication
     {
         $session = new SessionManager();
         if ($session->hasSession()) {
-            return $session->get('user_id') !== null;
+            return $session->get(getAppConfig('sessionAuthKey')) !== null;
         }
 
         return false;

@@ -5,6 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Kernels\Configs\RouteAuthStatus;
 use App\Controllers\AuthenticationController;
 use App\Controllers\BoardController;
+use App\Controllers\CommentController;
 use App\Controllers\UserController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
@@ -23,6 +24,8 @@ $router = new Router(
     ['get', '/create/board', [BoardController::class, 'viewCreate', RouteAuthStatus::Required]],
     ['post', '/create/board', [BoardController::class, 'create', RouteAuthStatus::Required]],
     ['get', '/', [BoardController::class, 'index', RouteAuthStatus::Optional]],
+    ['get', '/board/{boardId:\d+}', [CommentController::class, 'index', RouteAuthStatus::Optional]],
+    ['post', '/board/{boardId:\d+}', [CommentController::class, 'post', RouteAuthStatus::Required]],
 );
 
 $router->resolve();

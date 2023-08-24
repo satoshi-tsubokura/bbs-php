@@ -7,9 +7,9 @@
       <form action="/create/board" method="POST" class="p-board-create__form">
         <!-- エラーメッセージ(フォーム全体) -->
         <?php if(isset($errorMsgs['messages'])) { ?>
-          <ul class="p-signinup__errors">
+          <ul class="p-board-create__errors">
           <?php foreach($errorMsgs['messages'] as $msg) { ?>
-            <li class="c-error-msg"><?= $msg ?></li>
+            <li class="c-error-msg"><?= h($msg) ?></li>
           <?php
           }
             ?>
@@ -24,7 +24,7 @@
              <?php if(isset($errorMsgs['title'])) { ?>
               <ul>
               <?php foreach($errorMsgs['title'] as $msg) { ?>
-                <li class="c-error-msg"><?= $msg ?></li>
+                <li class="c-error-msg"><?= h($msg) ?></li>
               <?php
               }
                  ?>
@@ -39,7 +39,7 @@
             <?php if(isset($errorMsgs['description'])) { ?>
               <ul>
               <?php foreach($errorMsgs['description'] as $msg) { ?>
-                <li class="c-error-msg"><?= $msg ?></li>
+                <li class="c-error-msg"><?= h($msg) ?></li>
               <?php
               }
                 ?>

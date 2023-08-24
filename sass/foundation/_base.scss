@@ -41,3 +41,8 @@ input, textarea {
 input {
   height: 2.5rem;
 }
+
+input[type="file"] {
+  border: none;
+  background-color: transparent;
+}
