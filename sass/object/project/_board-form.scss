@@ -1,0 +1,17 @@
+.p-board-form {
+  font-size: 1.6rem;
+
+  &__label {
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    margin-left: 10px;
+    margin-bottom: 20px;
+  }
+
+  &__submit {
+    padding: 10px 0;
+    width: 120px;
+  }
+}

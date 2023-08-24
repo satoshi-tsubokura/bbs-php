@@ -511,7 +511,7 @@ input[type=file] {
   margin: 100px 0 50px;
 }
 .c-section__ttl {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-bottom: 50px;
 }
@@ -658,4 +658,48 @@ input[type=file] {
 }
 .p-boards__created {
   font-size: 1.2rem;
+}
+.p-board {
+  font-size: 1.6rem;
+}
+.p-board__heading {
+  margin-bottom: 30px;
+}
+.p-board__ttl {
+  margin-bottom: 10px;
+}
+.p-board__description {
+  font-size: 1.8rem;
+}
+.p-board__comments {
+  margin-bottom: 40px;
+}
+
+.p-board-form {
+  font-size: 1.6rem;
+}
+.p-board-form__label {
+  margin-bottom: 10px;
+}
+.p-board-form__input {
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+.p-board-form__submit {
+  padding: 10px 0;
+  width: 120px;
+}
+
+.p-comment {
+  font-size: 1.6rem;
+  border-bottom: 1px solid #333;
+  padding: 20px 0;
+  word-wrap: break-word;
+}
+.p-comment__meta {
+  font-weight: bold;
+}
+.p-comment__body {
+  margin: 10px 0;
+  padding: 0 1.6rem;
 }/*# sourceMappingURL=index.css.map */
