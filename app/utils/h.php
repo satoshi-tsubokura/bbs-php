@@ -1,0 +1,6 @@
+<?php
+
+function h(string $str, string $charset = 'UTF-8'): string
+{
+    return htmlentities($str, ENT_QUOTES | ENT_HTML5, $charset, false);
+}

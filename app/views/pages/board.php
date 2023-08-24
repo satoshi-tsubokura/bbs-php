@@ -5,8 +5,8 @@
     <section class="c-section p-board">
       <!-- Todoコメント一覧 -->
       <div class="p-board__heading">
-        <h2 class="c-section__ttl p-board__ttl"><?= $board->getTitle() ?></h2>
-        <p class="p-board__description"><?= nl2br($board->getDescription()) ?></p>
+        <h2 class="c-section__ttl p-board__ttl"><?= h($board->getTitle()) ?></h2>
+        <p class="p-board__description"><?= h(nl2br($board->getDescription())) ?></p>
       </div>
     <?php
       if(count($comments) === 0) {
@@ -21,11 +21,11 @@
         ?>
         <li class="p-comment">
           <div class="p-comment__meta">
-            <span class="p-comment__no"><?= $comment->getCommentNo() ?>.</span>
-            <span class="p-comment_user-name">名前: <?= $comment->getUser()->getUserName() ?>さん</span>
-            <span class="p-comment__date"><?= $comment->getUpdatedAt()->format("Y年m月d日 h:i:s") ?></span>
+            <span class="p-comment__no"><?= h($comment->getCommentNo()) ?>.</span>
+            <span class="p-comment_user-name">名前: <?= h($comment->getUser()->getUserName()) ?>さん</span>
+            <span class="p-comment__date"><?= h($comment->getUpdatedAt()->format("Y年m月d日 h:i:s")) ?></span>
           </div>
-          <p class="p-comment__body"><?= nl2br($comment->getCommentBody()) ?></p>
+          <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
         </li>
       <?php
     }
@@ -37,7 +37,7 @@
       <?php if(isset($errorMsgs['messages'])) { ?>
         <ul class="p-board-form__errors">
         <?php foreach($errorMsgs['messages'] as $msg) { ?>
-          <li class="c-error-msg"><?= $msg ?></li>
+          <li class="c-error-msg"><?= h($msg) ?></li>
         <?php
         }
           ?>
@@ -52,7 +52,7 @@
             <?php if(isset($errorMsgs['comment'])) { ?>
               <ul>
               <?php  foreach($errorMsgs['comment'] as $msg) { ?>
-                <li class="c-error-msg"><?= $msg ?></li>
+                <li class="c-error-msg"><?= h($msg) ?></li>
               <?php
               }
                 ?>
