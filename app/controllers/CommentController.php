@@ -77,16 +77,13 @@ class CommentController extends AbstractController
 
             // スレッドが存在しなければ、エラー画面
             if (is_null($board)) {
-                var_dump('test');
-                exit;
                 $this->response->redirect('/error/404');
-                exit;
             }
 
-            // コメント取得
+            // ビューで利用する変数
             $comments = $this->commentService->fetchComments($boardId);
-
             $csrfToken = $this->csrfHandler->create();
+
             require_once __DIR__ . '/../views/pages/board.php';
             exit;
         } catch (\PDOException $e) {
@@ -102,17 +99,18 @@ class CommentController extends AbstractController
             // 権限検証
             $comment = $this->commentService->fetchComment($commentId);
             $createdUserId = $comment->getUserId();
-
             if(! $this->auth->isAuthenticatedUser($createdUserId)) {
                 $userId = $this->session->get('user_id');
+
+                // エラー処理
                 $this->logger->info("ユーザーID: {$userId}はcommentId: {$commentId}のリソースを削除できません");
                 $this->response->redirect('/error/403');
-                exit;
             }
 
-            $this->commentService->delete($commentId);
-            $boardId = $comment->getBoardId();
 
+            $this->commentService->delete($commentId);
+
+            $boardId = $comment->getBoardId();
             $this->response->redirect("/board/{$boardId}");
         } catch (\PDOException $e) {
             $this->logger->error("コメント削除に失敗: {$e->getMessage()}", $e->getTrace());
