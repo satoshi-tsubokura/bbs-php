@@ -32,7 +32,7 @@ include __DIR__ . '/../templates/head.php' ?>
           <span class="p-comment_user-name">名前: <?= h($comment->getUser()->getUserName()) ?>さん</span>
           <span class="p-comment__date"><?= h($comment->getUpdatedAt()->format("Y年m月d日 h:i:s")) ?></span>
         </div>
-        <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
+        <p class="p-comment__body"><?= nl2br(h($comment->getCommentBody())) ?></p>
         <div class="p-row-groups p-row-groups--right">
           <a href="#comment-form" class="c-link p-comment__link js-reply-link" data-no="<?= h($comment->getCommentNo()) ?>">返信</a>
           <?php
