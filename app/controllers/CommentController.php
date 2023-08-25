@@ -45,6 +45,7 @@ class CommentController extends AbstractController
     {
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
+
         // csrf検証
         if (! $this->csrfHandler->verify($parameters['token'])) {
             $errorMsgs = ['messages' => ['不正なアクセスを確認いたしました。']];

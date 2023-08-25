@@ -101,7 +101,6 @@ include __DIR__ . '/../templates/head.php' ?>
 ?>
           </dd>
         </dl>
-        <input type="hidden" name="FILE_MAX_SIZE" value="2000000">
         <input type="hidden" name="token" value="<?= $csrfToken ?>">
         <button type="submit" class="c-btn c-btn--primary p-board-form__submit">投稿</button>
       </form>
