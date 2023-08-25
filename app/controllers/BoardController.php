@@ -66,8 +66,7 @@ class BoardController extends AbstractController
         } catch (\PDOException $e) {
             $this->logger->error("スレッド登録に失敗: {$e->getMessage()}", $e->getTrace());
 
-            // TODO: エラー画面
-            $this->response->redirect("/error");
+            $this->response->redirect('/error');
         }
     }
 

@@ -9,8 +9,6 @@ use function App\Kernels\Utils\getAppConfig;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= getAppConfig('appName') ?></title>
   <!-- stylesheet -->
-  <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="/css/index.css">
   <!-- script -->
-  <!-- <script src="js/bootstrap.min.js"></script> -->
 </head>

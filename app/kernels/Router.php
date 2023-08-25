@@ -154,12 +154,10 @@ class Router
     {
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                // TODO: 404エラーページの表示
-                print 'NOT FOUND';
+                $this->response->redirect('/error/404');
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                // TODO: 405エラーページの表示
-                print 'METHOD NOT ALLOWED';
+                $this->response->redirect('/error/405');
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
@@ -173,7 +171,6 @@ class Router
                         throw new InvalidTypeException('AbstractControllerを継承しいないクラスを実行できません。');
                     }
 
-
                     // Closureに変換
                     $handler = [$controller, $handler[1]](...$vars);
                     return;
@@ -181,9 +178,9 @@ class Router
 
                 $handler(...$vars);
                 break;
+
             default:
-                // TODO: 500エラーレスポンスの表示
-                print 'INTERNAL SERVER ERROR';
+                $this->response->redirect('/error');
         }
     }
 }

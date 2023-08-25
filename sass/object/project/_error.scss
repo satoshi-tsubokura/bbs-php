@@ -1,0 +1,17 @@
+.p-error {
+  &__ttl {
+    font-size: 4.5rem;
+    margin-bottom: 30px;
+  }
+
+  &__description {
+    font-size: 2rem;
+    margin-bottom: 50px;
+  }
+
+  &__link {
+    color: #1867c0;
+    font-size: 1.6rem;
+    text-decoration: underline;
+  }
+} 

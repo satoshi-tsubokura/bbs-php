@@ -71,7 +71,6 @@ class AuthenticationController extends AbstractController
         } catch(\PDOException $e) {
             $this->error("ユーザー認証処理に失敗: {$e->getMessage()}", $e->getTrace());
 
-            // エラー画面表示
             $this->response->redirect('/error');
         }
     }

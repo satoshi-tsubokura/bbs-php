@@ -705,4 +705,18 @@ input[type=file] {
 .p-comment__body {
   margin: 10px 0;
   padding: 0 1.6rem;
+}
+
+.p-error__ttl {
+  font-size: 4.5rem;
+  margin-bottom: 30px;
+}
+.p-error__description {
+  font-size: 2rem;
+  margin-bottom: 50px;
+}
+.p-error__link {
+  color: #1867c0;
+  font-size: 1.6rem;
+  text-decoration: underline;
 }/*# sourceMappingURL=index.css.map */

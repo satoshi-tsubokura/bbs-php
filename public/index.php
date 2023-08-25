@@ -6,6 +6,7 @@ use App\Kernels\Configs\RouteAuthStatus;
 use App\Controllers\AuthenticationController;
 use App\Controllers\BoardController;
 use App\Controllers\CommentController;
+use App\Controllers\ErrorController;
 use App\Controllers\UserController;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
@@ -26,6 +27,8 @@ $router = new Router(
     ['get', '/', [BoardController::class, 'index', RouteAuthStatus::Optional]],
     ['get', '/board/{boardId:\d+}', [CommentController::class, 'index', RouteAuthStatus::Optional]],
     ['post', '/board/{boardId:\d+}', [CommentController::class, 'post', RouteAuthStatus::Required]],
+    ['get', '/error', [ErrorController::class, 'error', RouteAuthStatus::Optional]],
+    ['get', '/error/{statusCode:\d+}', [ErrorController::class, 'error', RouteAuthStatus::Optional]],
 );
 
 $router->resolve();

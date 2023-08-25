@@ -77,8 +77,7 @@ class UserController extends AbstractController
         } catch(\PDOException $e) {
             $this->logger->error("ユーザー登録に失敗: {$e->getMessage()}", $e->getTrace());
 
-            // TODO: エラー画面
-            $this->response->redirect("/error");
+            $this->response->redirect('/error');
         }
     }
 
