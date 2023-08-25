@@ -34,12 +34,12 @@ include __DIR__ . '/../templates/head.php' ?>
         </div>
         <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
         <div class="p-row-groups p-row-groups--right">
-          <a href="#comment-form" class="c-link p-comment__link">返信</a>
+          <a href="#comment-form" class="c-link p-comment__link js-reply-link" data-no="<?= h($comment->getCommentNo()) ?>">返信</a>
           <?php
             // ログインユーザーのみ削除できるようにする
             if ($auth->isAuthenticatedUser($comment->getUserId())) {
                 ?>
-          <form method="POST" action="/comment/delete/<?= $comment->getId() ?>" class="js-delete-form">
+          <form method="POST" action="/comment/delete/<?= h($comment->getId()) ?>" class="js-delete-form">
             <button type="submit" class="c-btn c-btn--danger p-comment__btn">削除</button>
           </form>
           <?php
@@ -55,8 +55,8 @@ include __DIR__ . '/../templates/head.php' ?>
             // ログインユーザーのみ復元できるようにする
             if ($auth->isAuthenticatedUser($comment->getUserId())) {
                 ?>
-                <form method="POST" action="/comment/delete/<?= $comment->getId() ?>">
-                  <button type="submit" class="c-btn c-btn--danger p-comment__btn">復元</button>
+                <form method="POST" action="/comment/delete/<?= h($comment->getId()) ?>">
+                  <button type="submit" class="c-btn c-btn--primary p-comment__btn">復元</button>
                 </form>
                 
           <?php
