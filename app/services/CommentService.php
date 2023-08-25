@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Databases\Repositories\BoardRepository;
 use App\Models\Databases\Repositories\CommentRepository;
+use App\Models\Entities\CommentEntity;
+use PhpParser\Comment;
 
 class CommentService
 {
@@ -29,5 +31,15 @@ class CommentService
     public function fetchComments(int $boardId): array
     {
         return $this->commentRepository->fetchAllByBoardId($boardId);
+    }
+
+    public function fetchComment(int $commentId): CommentEntity|null
+    {
+        return $this->commentRepository->fetchById($commentId);
+    }
+
+    public function delete(int $commentId): bool
+    {
+        return $this->commentRepository->changeStatus($commentId, CommentEntity::ARCHIVED);
     }
 }

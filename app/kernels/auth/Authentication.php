@@ -29,12 +29,12 @@ class Authentication
         switch ($routeStatus) {
             case RouteAuthStatus::Required:
                 if (! $isAuth) {
-                    $response->redirect('/sign_in');
+                    // $response->redirect('/sign_in');
                 }
                 return;
             case RouteAuthStatus::UnAuthenticated:
                 if ($isAuth) {
-                    $response->redirect('/');
+                    // $response->redirect('/');
                     exit;
                 }
                 return;

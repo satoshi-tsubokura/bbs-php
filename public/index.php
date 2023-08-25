@@ -27,6 +27,7 @@ $router = new Router(
     ['get', '/', [BoardController::class, 'index', RouteAuthStatus::Optional]],
     ['get', '/board/{boardId:\d+}', [CommentController::class, 'index', RouteAuthStatus::Optional]],
     ['post', '/board/{boardId:\d+}', [CommentController::class, 'post', RouteAuthStatus::Required]],
+    ['post', '/comment/delete/{commentId:\d+}', [CommentController::class, 'delete', RouteAuthStatus::Required]],
     ['get', '/error', [ErrorController::class, 'error', RouteAuthStatus::Optional]],
     ['get', '/error/{statusCode:\d+}', [ErrorController::class, 'error', RouteAuthStatus::Optional]],
 );

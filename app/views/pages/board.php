@@ -1,5 +1,9 @@
-<?php include __DIR__ . '/../templates/head.php' ?>
-<body>
+<?php
+
+use App\Models\Entities\CommentEntity;
+
+include __DIR__ . '/../templates/head.php' ?>
+<body id="board-page">
   <?php include __DIR__ . '/../templates/header.php' ?>
   <div class="l-inner">
     <section class="c-section p-board">
@@ -9,39 +13,61 @@
         <p class="p-board__description"><?= h(nl2br($board->getDescription())) ?></p>
       </div>
     <?php
-      if(count($comments) === 0) {
-          ?>
+     if(count($comments) === 0) {
+         ?>
     <p>まだコメントはありません。</p>
     <?php
-      }
+     }
 ?>
     <ul class="p-board__comments">
+    <?php
+      foreach($comments as $comment) {
+          ?>
+      <li class="p-comment">
       <?php
-    foreach($comments as $comment) {
-        ?>
-        <li class="p-comment">
-          <div class="p-comment__meta">
-            <span class="p-comment__no"><?= h($comment->getCommentNo()) ?>.</span>
-            <span class="p-comment_user-name">名前: <?= h($comment->getUser()->getUserName()) ?>さん</span>
-            <span class="p-comment__date"><?= h($comment->getUpdatedAt()->format("Y年m月d日 h:i:s")) ?></span>
-          </div>
-          <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
-          <div class="p-row-groups p-row-groups--right">
-            <a href="#comment-form" class="c-link p-comment__link">返信</a>
-            <?php
-              // ログインユーザーのみ削除できるようにする
-              if ($auth->isAuthenticatedUser($comment->getUserId())) {
-                  ?>
-            <form action="/board/<?= $comment->getId() ?>" method="DELETE">
-              <button type="submit" class="c-btn c-btn--danger p-comment__btn">削除</button>
-            </form>
-            <?php
-              }
-        ?>
-          </div>
-        </li>
+        if ($comment->getStatus() === CommentEntity::ACTIVE) {
+            ?>
+        <div class="p-comment__meta">
+          <span class="p-comment__no"><?= h($comment->getCommentNo()) ?>.</span>
+          <span class="p-comment_user-name">名前: <?= h($comment->getUser()->getUserName()) ?>さん</span>
+          <span class="p-comment__date"><?= h($comment->getUpdatedAt()->format("Y年m月d日 h:i:s")) ?></span>
+        </div>
+        <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
+        <div class="p-row-groups p-row-groups--right">
+          <a href="#comment-form" class="c-link p-comment__link">返信</a>
+          <?php
+            // ログインユーザーのみ削除できるようにする
+            if ($auth->isAuthenticatedUser($comment->getUserId())) {
+                ?>
+          <form method="POST" action="/comment/delete/<?= $comment->getId() ?>" class="js-delete-form">
+            <button type="submit" class="c-btn c-btn--danger p-comment__btn">削除</button>
+          </form>
+          <?php
+            }
+            ?>
+        </div>
       <?php
-    }
+        } else {
+            ?>
+        <p class="p-comment__body">このコメントは削除されました。</p>
+              <div class="p-row-groups p-row-groups--right">
+            <?php
+            // ログインユーザーのみ復元できるようにする
+            if ($auth->isAuthenticatedUser($comment->getUserId())) {
+                ?>
+                <form method="POST" action="/comment/delete/<?= $comment->getId() ?>">
+                  <button type="submit" class="c-btn c-btn--danger p-comment__btn">復元</button>
+                </form>
+                
+          <?php
+            }
+            ?>
+      <?php
+        }
+          ?>
+      </li>
+    <?php
+      }
 ?>  
     </ul>
 

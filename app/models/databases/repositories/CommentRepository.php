@@ -86,6 +86,33 @@ class CommentRepository extends AbstractMysqlRepository
         return $comments ?? [];
     }
 
+    public function fetchById(int $id): CommentEntity
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id';
+
+        $parameters = [':id' => $id];
+
+        $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
+
+        if (! $record) {
+            return null;
+        }
+
+        return $this->ToEntity($record);
+    }
+
+    public function changeStatus(int $id, int $status): bool
+    {
+        $sql = 'UPDATE ' . $this->tableName . ' SET status=:status WHERE id=:id';
+
+        $parameters = [
+            ':status' => $status,
+            ':id' => $id
+        ];
+
+        return $this->dbConnection->executeQuery($sql, $parameters);
+    }
+
     private function ToEntity(array $record, UserEntity $user = null): CommentEntity
     {
         // 型変換

@@ -80,6 +80,7 @@ class Router
     {
         // リクエストヘッダの内容を取得
         $httpMethod = $this->request->getRequestMethod();
+
         $uriPath = $this->request->getPath();
         $routeInfo = $this->dispatch($httpMethod, $uriPath);
 
@@ -181,6 +182,7 @@ class Router
 
             default:
                 $this->response->redirect('/error');
+                break;
         }
     }
 }

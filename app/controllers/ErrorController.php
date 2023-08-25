@@ -11,6 +11,10 @@ class ErrorController extends AbstractController
     public function error(int $statusCode = null): void
     {
         switch($statusCode) {
+            case 403:
+                $errorMsg = '403 Forbidden';
+                $errorDescription = '許可していない操作が確認されました';
+                break;
             case 404:
                 $errorMsg = '404 NOT FOUND';
                 $errorDescription = 'ご指定のページが見つかりませんでした。';

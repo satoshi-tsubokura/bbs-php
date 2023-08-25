@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Kernels\AbstractController;
+use App\Kernels\Auth\Authentication;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Kernels\Securities\CsrfHandler;
@@ -20,12 +21,16 @@ class CommentController extends AbstractController
     private CommentService $commentService;
     private BoardService $boardService;
     private CsrfHandler $csrfHandler;
+    private SessionManager $session;
+    private Authentication $auth;
 
     public function __construct(Request $request, Response $response)
     {
         $this->commentService = new CommentService(new CommentRepository(new DBConnection()));
         $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
         $this->csrfHandler = new CsrfHandler();
+        $this->session = new SessionManager();
+        $this->auth = new Authentication($this->session);
 
         parent::__construct($request, $response);
         $this->validatorRules = [
@@ -66,13 +71,53 @@ class CommentController extends AbstractController
 
     public function index(int $boardId, array $originValues = [], array $errorMsgs = []): void
     {
-        // スレッド情報取得
-        $board = $this->boardService->fetchBoard($boardId);
+        try {
+            // スレッド情報取得
+            $board = $this->boardService->fetchBoard($boardId);
 
-        // コメント取得
-        $comments = $this->commentService->fetchComments($boardId);
+            // スレッドが存在しなければ、エラー画面
+            if (is_null($board)) {
+                var_dump('test');
+                exit;
+                $this->response->redirect('/error/404');
+                exit;
+            }
 
-        $csrfToken = $this->csrfHandler->create();
-        require_once __DIR__ . '/../views/pages/board.php';
+            // コメント取得
+            $comments = $this->commentService->fetchComments($boardId);
+
+            $csrfToken = $this->csrfHandler->create();
+            require_once __DIR__ . '/../views/pages/board.php';
+            exit;
+        } catch (\PDOException $e) {
+            $this->logger->error("コメント取得に失敗しました: {$e->getMessage()}", $e->getTrace());
+
+            $this->response->redirect('/error');
+        }
+    }
+
+    public function delete(int $commentId): void
+    {
+        try {
+            // 権限検証
+            $comment = $this->commentService->fetchComment($commentId);
+            $createdUserId = $comment->getUserId();
+
+            if(! $this->auth->isAuthenticatedUser($createdUserId)) {
+                $userId = $this->session->get('user_id');
+                $this->logger->info("ユーザーID: {$userId}はcommentId: {$commentId}のリソースを削除できません");
+                $this->response->redirect('/error/403');
+                exit;
+            }
+
+            $this->commentService->delete($commentId);
+            $boardId = $comment->getBoardId();
+
+            $this->response->redirect("/board/{$boardId}");
+        } catch (\PDOException $e) {
+            $this->logger->error("コメント削除に失敗: {$e->getMessage()}", $e->getTrace());
+
+            $this->response->redirect('/error');
+        }
     }
 }
