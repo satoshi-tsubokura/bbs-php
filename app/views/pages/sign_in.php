@@ -54,7 +54,7 @@
         </dl>
         <button type="submit" class="c-btn c-btn--primary p-signinup__submit">ログイン</button>
       </form>
-      <p class="p-signinup__link"><a href="/sign_up" class="p-signinup__link">新規登録がまだの方はこちら</a></p>
+      <p class="c-link p-signinup__link"><a href="/sign_up">新規登録がまだの方はこちら</a></p>
     </section>
   </div>
 </body>

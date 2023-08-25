@@ -26,13 +26,26 @@
             <span class="p-comment__date"><?= h($comment->getUpdatedAt()->format("Y年m月d日 h:i:s")) ?></span>
           </div>
           <p class="p-comment__body"><?= h(nl2br($comment->getCommentBody())) ?></p>
+          <div class="p-row-groups p-row-groups--right">
+            <a href="#comment-form" class="c-link p-comment__link">返信</a>
+            <?php
+              // ログインユーザーのみ削除できるようにする
+              if ($auth->isAuthenticatedUser($comment->getUserId())) {
+                  ?>
+            <form action="/board/<?= $comment->getId() ?>" method="DELETE">
+              <button type="submit" class="c-btn c-btn--danger p-comment__btn">削除</button>
+            </form>
+            <?php
+              }
+        ?>
+          </div>
         </li>
       <?php
     }
 ?>  
     </ul>
 
-    <form method="POST" action="/board/<?= $boardId ?>" enctype="multipart/form-data">
+    <form method="POST" action="/board/<?= $boardId ?>" enctype="multipart/form-data" id="comment-form">
       <!-- エラーメッセージ(フォーム全体) -->
       <?php if(isset($errorMsgs['messages'])) { ?>
         <ul class="p-board-form__errors">

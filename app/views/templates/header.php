@@ -1,9 +1,10 @@
 <?php
 use App\Kernels\Auth\Authentication;
+use App\Kernels\SessionManager;
 
 use function App\Kernels\Utils\getAppConfig;
 
-$auth = new Authentication();
+$auth = new Authentication(new SessionManager());
 ?>
 <header class="l-header">
   <div class="l-header__inner">

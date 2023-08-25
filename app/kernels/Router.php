@@ -87,7 +87,7 @@ class Router
         if (isset($routeInfo[1]) && is_array($routeInfo[1])) {
             // 認証状態によるリダイレクト処理
             $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
-            $auth = new Authentication();
+            $auth = new Authentication(new SessionManager());
             $auth->handleRoute(new Response(), $routeAuth);
         }
 
