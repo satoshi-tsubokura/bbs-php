@@ -1,7 +1,7 @@
 <?php
 use function App\Kernels\Utils\getAppConfig;
 
-include __DIR__ . '/../templates/head.php';
+include __DIR__ . '/../parts/head.php';
 
 $defaultErrorMsg = '予期せぬエラーが発生しました。';
 ?>

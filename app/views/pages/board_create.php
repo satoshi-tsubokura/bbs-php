@@ -1,6 +1,6 @@
-<?php include __DIR__ . '/../templates/head.php' ?>
+<?php include __DIR__ . '/../parts/head.php' ?>
 <body>
-  <?php include __DIR__ . '/../templates/header.php' ?>
+  <?php include __DIR__ . '/../parts/header.php' ?>
   <div class="l-inner">
     <section class="c-section p-board-create">
       <h1 class="c-section__ttl p-board-create__ttl">スレッド新規作成</h1>

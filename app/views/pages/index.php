@@ -1,9 +1,9 @@
 <?php
 
-include __DIR__ . '/../templates/head.php';
+include __DIR__ . '/../parts/head.php';
 ?>
 <body>
-  <?php include __DIR__ . '/../templates/header.php' ?>
+  <?php include __DIR__ . '/../parts/header.php' ?>
   <div class="l-inner">
     <section class="c-section p-boards">
       <h1 class="c-section__ttl p-boards__ttl">スレッド一覧</h1>
@@ -29,7 +29,7 @@ include __DIR__ . '/../templates/head.php';
       </ul>
       <!-- c-card p-boards__list -->
       <div class="p-boards__pagination">
-        <?php include __DIR__ . '/../templates/pagination.php' ?>
+        <?php include __DIR__ . '/../parts/pagination.php' ?>
       </div>
     </section>
     <!-- c-section p-boards -->

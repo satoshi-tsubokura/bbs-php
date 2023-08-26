@@ -1,6 +1,6 @@
-<?php include __DIR__ . '/../templates/head.php' ?>
+<?php include __DIR__ . '/../parts/head.php' ?>
 <body>
-  <?php include __DIR__ . '/../templates/header.php' ?>
+  <?php include __DIR__ . '/../parts/header.php' ?>
   <div class="l-inner">
     <section class="c-section c-card p-signinup">
       <div class="p-signinup__ttl">新規登録</div>
