@@ -74,10 +74,7 @@ class BoardRepository extends AbstractMysqlRepository
 
         // BoardEntityに変換
         foreach ($records as $record) {
-            $createdAt = new \DateTime($record['created_at']);
-            $updatedAt = new \DateTime($record['updated_at']);
-            // TODO FETCHモードをFETCH_OBJに変えることで対策できないか検討
-            $boards[] = new BoardEntity($record['id'], $record['user_id'], $record['title'], $record['description'], $record['status'], $createdAt, $updatedAt);
+            $boards[] = BoardEntity::toEntity($record);
         }
 
         return $boards;
@@ -95,10 +92,7 @@ class BoardRepository extends AbstractMysqlRepository
             return null;
         }
 
-        $createdAt = new \DateTime($record['created_at']);
-        $updatedAt = new \DateTime($record['updated_at']);
-
-        return new BoardEntity($record['id'], $record['user_id'], $record['title'], $record['description'], $record['status'], $createdAt, $updatedAt);
+        return BoardEntity::toEntity($record);
     }
 
     public function countAllBoards(): int

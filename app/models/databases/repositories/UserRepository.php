@@ -80,11 +80,7 @@ class UserRepository extends AbstractMysqlRepository
             return null;
         }
 
-        $loginAt = new \DateTime($record['login_at']);
-        $createdAt = new \DateTime($record['created_at']);
-        $updatedAt = new \DateTime($record['updated_at']);
-
-        return new UserEntity($record['id'], $record['user_name'], $record['email'], $record['password'], $record['status'], $loginAt, $createdAt, $updatedAt);
+        return UserEntity::toEntity($record);
 
     }
 
@@ -97,6 +93,7 @@ class UserRepository extends AbstractMysqlRepository
     public function fetchUserByName(string $name): UserEntity|false
     {
         $sql = 'SELECT id, user_name, email, password, status, login_at, created_at, updated_at FROM ' . $this->tableName . ' WHERE user_name=:user_name AND status=' . UserEntity::ACTIVE;
+
         $parameters = [':user_name' => $name];
 
         $record = $this->dbConnection->fetchFirstResult($sql, $parameters);
@@ -106,10 +103,6 @@ class UserRepository extends AbstractMysqlRepository
             return false;
         }
 
-        $loginAt = new \DateTime($record['login_at']);
-        $createdAt = new \DateTime($record['created_at']);
-        $updatedAt = new \DateTime($record['updated_at']);
-
-        return new UserEntity($record['id'], $record['user_name'], $record['email'], $record['password'], $record['status'], $loginAt, $createdAt, $updatedAt);
+        return UserEntity::toEntity($record);
     }
 }
