@@ -7,7 +7,7 @@ namespace App\Models\Entities;
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class BoardEntity implements IEntity
+class BoardEntity implements IToEntity
 {
     public const ACTIVE = 0;
     public const ARCHIVED = 1;

@@ -2,7 +2,12 @@
 
 namespace App\Models\Entities;
 
-interface IEntity
+/**
+ * エンティティ変換処理を定義したインターフェース
+ * 
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
+interface IToEntity
 {
     /**
      * レコード1行分の結果セット配列をエンティティクラスに変換する
