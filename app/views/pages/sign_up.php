@@ -21,7 +21,7 @@
             <label for="input_name">ユーザー名</label>
           </dt>
           <dd class="p-signinup__input">
-            <input type="text" name="name" id="input_name" class="p-signinup__item" size="25" required minlength="3" maxlength="20" value="<?= $parameters['name'] ?? '' ?>">
+            <input type="text" name="name" id="input_name" class="p-signinup__item" size="25" required minlength="3" maxlength="20" value="<?= $originValues['name'] ?? '' ?>">
             <small class="p-signinup__help">3~20文字</small>
             <?php if(isset($errorMsgs['name'])) { ?>
               <ul>
@@ -39,7 +39,7 @@
             <label for="input_email">メールアドレス</label>
           </dt>
           <dd class="p-signinup__input">
-            <input type="email" name="email" id="input_email" class="p-signinup__item" size="30" required value="<?= $parameters['email'] ?? '' ?>">
+            <input type="email" name="email" id="input_email" class="p-signinup__item" size="30" required value="<?= $originValues['email'] ?? '' ?>">
             <?php if(isset($errorMsgs['email'])) { ?>
               <ul>
               <?php foreach($errorMsgs['email'] as $msg) { ?>
@@ -56,7 +56,7 @@
             <label for="input_password">パスワード</label>
           </dt>
           <dd class="p-signinup__input">
-            <input type="password" name="password" id="input_password" class="p-signinup__item" size="30" required minlength="10" maxlength="72" value="<?= $parameters['password'] ?? '' ?>">
+            <input type="password" name="password" id="input_password" class="p-signinup__item" size="30" required minlength="10" maxlength="72" value="<?= $originValues['password'] ?? '' ?>">
             <small class="p-signinup__help">10文字以上 大文字、小文字、数字をそれぞれ1文字必須</small>
             <?php if(isset($errorMsgs['password'])) { ?>
               <ul>

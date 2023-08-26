@@ -12,6 +12,7 @@ use FastRoute\Dispatcher;
 
 /**
  * ルーティングを行うクラス
+ *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 class Router

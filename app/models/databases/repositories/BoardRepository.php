@@ -6,6 +6,8 @@ use App\Models\Entities\BoardEntity;
 
 /**
  * BOARDSテーブルを操作するリポジトリクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 class BoardRepository extends AbstractMysqlRepository
 {
@@ -23,6 +25,7 @@ class BoardRepository extends AbstractMysqlRepository
      *
      * @param string $title
      * @return boolean 同じタイトルが存在しているか
+     * @throws \PDOException
      */
     public function existsSameTitle(string $title): bool
     {
@@ -60,6 +63,14 @@ class BoardRepository extends AbstractMysqlRepository
         return $this->dbConnection->lastInsertId();
     }
 
+    /**
+     * レコードを指定区間取得するメソッド
+     *
+     * @param integer $limit 最大取得数
+     * @param integer $offset 取得開始インデックス
+     * @return array<BoardEntity>
+     * @throws \PDOException
+     */
     public function fetchBoards(int $limit, int $offset): array
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE status=' . BoardEntity::ACTIVE . ' ORDER BY updated_at desc LIMIT :limit OFFSET :offset';
@@ -80,6 +91,13 @@ class BoardRepository extends AbstractMysqlRepository
         return $boards;
     }
 
+    /**
+     * 掲示板IDによって1レコードに対応するBoardEntityを取得する。
+     *
+     * @param integer $id
+     * @return BoardEntity|null
+     * @throws \PDOException
+     */
     public function fetchById(int $id): BoardEntity|null
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE id=:id AND status=' . BoardEntity::ACTIVE;
@@ -95,6 +113,12 @@ class BoardRepository extends AbstractMysqlRepository
         return BoardEntity::toEntity($record);
     }
 
+    /**
+     * 有効なステータスの掲示板数を取得する
+     *
+     * @return integer
+     * @throws \PDOException
+     */
     public function countAllBoards(): int
     {
         $countCol = 'boardNum';
@@ -105,6 +129,13 @@ class BoardRepository extends AbstractMysqlRepository
         return $result[$countCol];
     }
 
+    /**
+     * 指定したIDの更新日時を現在時刻に更新する
+     *
+     * @param integer $id
+     * @return boolean 更新に成功したか
+     * @throws \PDOException
+     */
     public function updatedAt(int $id): bool
     {
         $sql = 'UPDATE ' . $this->tableName . ' SET updated_at=CURRENT_TIMESTAMP() WHERE id=:id';

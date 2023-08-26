@@ -2,6 +2,11 @@
 
 namespace App\Kernels\Http;
 
+/**
+ * レスポンス処理を行うクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class Response
 {
     /**
@@ -17,18 +22,6 @@ class Response
     }
 
     /**
-     * JSON形式のデータを送信する
-     *
-     * @return void
-     */
-    public function send(): void
-    {
-        header('Content-Type: application/json');
-        http_response_code($this->statusCode);
-        print json_encode($this->responseData);
-    }
-
-    /**
      * 指定したパスにリダイレクトする
      *
      * @param string $path
@@ -36,7 +29,8 @@ class Response
      */
     public function redirect(string $path = '/'): void
     {
-        header("Location: {$path}");
+        $this->statusCode = 301;
+        header("Location: {$path}", $this->statusCode);
         exit();
     }
 }

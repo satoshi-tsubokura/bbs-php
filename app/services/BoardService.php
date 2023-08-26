@@ -4,10 +4,17 @@ namespace App\Services;
 
 use App\Models\Databases\Repositories\BoardRepository;
 use App\Models\Entities\BoardEntity;
-use App\Kernels\SessionManager;
 
+/**
+ * 掲示板に関するサービスクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class BoardService
 {
+    /**
+     * @param BoardRepository $boardRepository
+     */
     public function __construct(
         private BoardRepository $boardRepository
     ) {
@@ -60,11 +67,22 @@ class BoardService
         return $this->boardRepository->fetchBoards($max, $offset) ?? [];
     }
 
+    /**
+     * 総掲示板数を取得する
+     *
+     * @return integer 総掲示板数
+     */
     public function countAllBoards(): int
     {
         return $this->boardRepository->countAllBoards();
     }
 
+    /**
+     * 掲示板をIDによって取得する
+     *
+     * @param integer $boardId
+     * @return BoardEntity|null 掲示板エンティティ
+     */
     public function fetchBoard(int $boardId): BoardEntity|null
     {
         return $this->boardRepository->fetchById($boardId);

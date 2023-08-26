@@ -7,6 +7,8 @@ use App\Kernels\AppLogger;
 
 /**
  * Mysqlのデータベース処理の共通化
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 abstract class AbstractMysqlRepository extends AbstractDBRepository
 {

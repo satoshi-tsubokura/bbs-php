@@ -23,8 +23,6 @@ class CommentController extends AbstractController
 {
     private CommentService $commentService;
     private BoardService $boardService;
-    private CsrfHandler $csrfHandler;
-    private SessionManager $session;
     private Authentication $auth;
 
     /**
@@ -39,10 +37,9 @@ class CommentController extends AbstractController
 
         $this->commentService = new CommentService(new CommentRepository(new DBConnection()));
         $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
-        $this->csrfHandler = new CsrfHandler();
-        $this->session = new SessionManager();
         $this->auth = new Authentication($this->session);
 
+        // バリデーションルール
         $this->validatorRules = [
             'comment' => [
                 'name' => 'コメント',
@@ -63,15 +60,12 @@ class CommentController extends AbstractController
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
 
-        // csrf検証
-        if (! $this->csrfHandler->verify($parameters['token'])) {
-            $errorMsgs = ['messages' => ['不正なアクセスを確認いたしました。']];
-        }
+        // csrfエラーメッセージ追加
+        $errorMsgs = [...$errorMsgs ,...$this->csrfVerify($parameters['token'])];
 
         // エラーメッセージ付きで、ビューを表示
         if (count($errorMsgs) > 0) {
             $this->index($boardId, $parameters, $errorMsgs);
-            exit;
         }
 
         try {
@@ -81,7 +75,7 @@ class CommentController extends AbstractController
 
             $this->response->redirect("/board/{$boardId}");
         } catch(\PDOException $e) {
-            $this->logger->error("ユーザー登録に失敗: {$e->getMessage()}", $e->getTrace());
+            $this->logger->error("コメント登録に失敗: {$e->getMessage()}", $e->getTrace());
 
             $this->response->redirect('/error');
         }
@@ -129,9 +123,10 @@ class CommentController extends AbstractController
     public function delete(int $commentId): void
     {
         try {
-            // 権限検証
             $comment = $this->commentService->fetchComment($commentId);
             $createdUserId = $comment->getUserId();
+
+            // 権限検証
             if(! $this->auth->isAuthenticatedUser($createdUserId)) {
                 $userId = $this->session->get('user_id');
 
@@ -140,6 +135,7 @@ class CommentController extends AbstractController
                 $this->response->redirect('/error/403');
             }
 
+            // コメント削除
             $this->commentService->delete($comment);
 
             $boardId = $comment->getBoardId();

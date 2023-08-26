@@ -8,11 +8,20 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\RotatingFileHandler;
 
+/**
+ * ログ出力処理を行うクラス
+ * NOTE: シングルトンクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class AppLogger
 {
     private $logger;
     private static AppLogger $singleton;
 
+    /**
+     * ログ出力のための設定を定義する
+     */
     private function __construct()
     {
         $logLevel = match (LoggerConfig::LOG_LEVEL) {
@@ -31,7 +40,13 @@ class AppLogger
         $this->logger->pushHandler(new RotatingFileHandler($logFile, LoggerConfig::FILE_MAX_NUM, $logLevel));
     }
 
-    public static function getInstance()
+    /**
+     * インスタンスを取得する。
+     * ただし、アプリケーション内で本クラスのインスタンスを1つ以上作成しない。
+     *
+     * @return self
+     */
+    public static function getInstance(): self
     {
         if(! isset($singleton)) {
             self::$singleton = new AppLogger();

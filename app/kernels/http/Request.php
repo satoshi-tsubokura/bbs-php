@@ -41,6 +41,7 @@ class Request
         }
 
         $convertParamaeterFnc = function ($para) {
+            // 空白除去処理
             $trimmedPara = preg_replace('/\A[　 \n\r\t\v\x00]*|[　 \n\r\t\v\x00]*\z/u', '', $para);
             
             // 改行文字の統一

@@ -6,6 +6,8 @@ use App\Models\Entities\UserEntity;
 
 /**
  * USERSテーブルを操作するリポジトリクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 class UserRepository extends AbstractMysqlRepository
 {
