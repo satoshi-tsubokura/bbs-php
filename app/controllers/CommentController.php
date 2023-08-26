@@ -16,6 +16,9 @@ use App\Services\CommentService;
 
 use function App\Kernels\Utils\getAppConfig;
 
+/**
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class CommentController extends AbstractController
 {
     private CommentService $commentService;
@@ -24,15 +27,22 @@ class CommentController extends AbstractController
     private SessionManager $session;
     private Authentication $auth;
 
+    /**
+     * 初期化等を行う
+     *
+     * @param Request $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
+        parent::__construct($request, $response);
+
         $this->commentService = new CommentService(new CommentRepository(new DBConnection()));
         $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
         $this->csrfHandler = new CsrfHandler();
         $this->session = new SessionManager();
         $this->auth = new Authentication($this->session);
 
-        parent::__construct($request, $response);
         $this->validatorRules = [
             'comment' => [
                 'name' => 'コメント',
@@ -41,6 +51,13 @@ class CommentController extends AbstractController
         ];
     }
 
+    /**
+     * コメント投稿に関する操作を行う
+     * 投稿成功後リダイレクトを行う
+     *
+     * @param integer $boardId
+     * @return void
+     */
     public function post(int $boardId): void
     {
         $parameters = $this->request->getAllParameters();
@@ -70,6 +87,14 @@ class CommentController extends AbstractController
         }
     }
 
+    /**
+     * 掲示板IDに基づいてコメント一覧をビューに渡す処理を行う
+     *
+     * @param integer $boardId
+     * @param array $originValues 投稿失敗時の値
+     * @param array $errorMsgs 投稿失敗時のエラーメッセージ
+     * @return void
+     */
     public function index(int $boardId, array $originValues = [], array $errorMsgs = []): void
     {
         try {
@@ -94,6 +119,13 @@ class CommentController extends AbstractController
         }
     }
 
+    /**
+     * コメント削除に関する処理をする
+     * 成功時、元のコメント一覧画面にリダイレクトする
+     *
+     * @param integer $commentId
+     * @return void
+     */
     public function delete(int $commentId): void
     {
         try {
@@ -108,8 +140,7 @@ class CommentController extends AbstractController
                 $this->response->redirect('/error/403');
             }
 
-
-            $this->commentService->delete($commentId);
+            $this->commentService->delete($comment);
 
             $boardId = $comment->getBoardId();
             $this->response->redirect("/board/{$boardId}");

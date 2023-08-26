@@ -4,7 +4,7 @@
  * コメント返信文字をリンクに変換するビューヘルパー関数
  *
  * @param string $str
- * @return string
+ * @return string コメント返信文字をリンク化した文字列
  */
 function toReplyLink(string $str): string
 {
