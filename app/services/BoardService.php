@@ -65,7 +65,7 @@ class BoardService
         return $this->boardRepository->countAllBoards();
     }
 
-    public function fetchBoard(int $boardId): BoardEntity
+    public function fetchBoard(int $boardId): BoardEntity|null
     {
         return $this->boardRepository->fetchById($boardId);
     }

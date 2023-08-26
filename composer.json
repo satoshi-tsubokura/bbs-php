@@ -10,7 +10,8 @@
         },
         "files": [
             "app/kernels/utils/getAppConfig.php",
-            "app/utils/h.php"
+            "app/utils/h.php",
+            "app/utils/toReplyLink.php"
         ]
     },
     "autoload-dev": {

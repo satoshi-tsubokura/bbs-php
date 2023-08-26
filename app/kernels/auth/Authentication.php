@@ -10,8 +10,17 @@ use function App\Kernels\Utils\getAppConfig;
 
 class Authentication
 {
+    public function __construct(
+        private SessionManager $session
+    ) {
+    }
+
     /**
      * 現在の認証状態がルートの認証条件を満たしているか
+     *
+     * @param Response $response
+     * @param RouteAuthStatus $routeStatus
+     * @return void
      */
     public function handleRoute(Response $response, RouteAuthStatus $routeStatus): void
     {
@@ -26,7 +35,6 @@ class Authentication
             case RouteAuthStatus::UnAuthenticated:
                 if ($isAuth) {
                     $response->redirect('/');
-                    exit;
                 }
                 return;
             case RouteAuthStatus::Optional:
@@ -42,11 +50,23 @@ class Authentication
      */
     public function isAuthenticated(): bool
     {
-        $session = new SessionManager();
-        if ($session->hasSession()) {
-            return $session->get(getAppConfig('sessionAuthKey')) !== null;
+        if ($this->session->hasSession()) {
+            return $this->session->get(getAppConfig('sessionAuthKey')) !== null;
         }
 
         return false;
+    }
+
+    /**
+     * 認証済みユーザーと同じユーザーであるか確認する
+     *
+     * @param string $authValue
+     * @return boolean
+     */
+    public function isAuthenticatedUser(string $authValue): bool
+    {
+        $sessionAuthValue = (string) $this->session->get(getAppConfig('sessionAuthKey'));
+
+        return $sessionAuthValue === $authValue;
     }
 }

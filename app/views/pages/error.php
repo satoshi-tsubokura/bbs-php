@@ -14,7 +14,7 @@ $defaultErrorMsg = '予期せぬエラーが発生しました。';
     <section class="c-section p-error">
       <h1 class="c-section_ttl p-error__ttl"><?= $errorMsg ?? $defaultErrorMsg ?></h1>
       <p class="p-error__description"><?= $errorDescription ?? '' ?></p>
-      <a href="/" class="p-error__link">トップ画面に戻る</a>
+      <a href="/" class="c-link p-error__link">トップ画面に戻る</a>
     </section>
   </div>
 </body>

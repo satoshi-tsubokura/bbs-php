@@ -13,4 +13,9 @@
     margin: 10px 0;
     padding: 0 $comment_font_size;
   }
+  
+  &__btn, &__link {
+    padding: 5px 0;
+    width: 50px;
+  }
 }
