@@ -71,7 +71,17 @@ class CommentRepository extends AbstractMysqlRepository
      */
     public function fetchAllByBoardId(int $boardId): array
     {
-        $userColmuns = 'u.id AS u_id, u.user_name AS u_user_name, u.email AS u_email, u.password AS u_password, u.status AS u_status, u.login_at AS u_login_at, u.created_at AS u_created_at, u.updated_at AS u_updated_at';
+        $userPrefix = 'u_';
+        $userColmuns = '
+            u.id AS ' . $userPrefix . 'id,
+            u.user_name AS ' . $userPrefix . 'user_name,
+            u.email AS ' . $userPrefix . 'email,
+            u.password AS ' . $userPrefix . 'password,
+            u.status AS ' . $userPrefix . 'status,
+            u.login_at AS ' . $userPrefix . 'login_at,
+            u.created_at AS ' . $userPrefix . 'created_at,
+            u.updated_at AS ' . $userPrefix . 'updated_at';
+
         // statusカラムの値関係なく取得する
         $sql = 'SELECT c.*, ' . $userColmuns . ' FROM ' . $this->tableName . ' AS c JOIN USERS AS u on c.user_id=u.id WHERE c.board_id=:board_id ORDER BY c.comment_no ASC';
 
@@ -79,7 +89,12 @@ class CommentRepository extends AbstractMysqlRepository
         $records = $this->dbConnection->fetchResultsAll($sql, $parameters);
 
         foreach ($records as $record) {
-            $comments[] = $this->ToEntity($record);
+            // レコード->エンティティ変換処理
+            $user = UserEntity::toEntity($record, $userPrefix);
+            $comment = CommentEntity::ToEntity($record);
+            $comment->setUser($user);
+
+            $comments[] = $comment;
         }
 
         return $comments ?? [];
@@ -103,7 +118,7 @@ class CommentRepository extends AbstractMysqlRepository
             return null;
         }
 
-        return $this->ToEntity($record);
+        return CommentEntity::toEntity($record);
     }
 
     /**
@@ -144,28 +159,6 @@ class CommentRepository extends AbstractMysqlRepository
         return $record[$maxCol] + 1;
     }
 
-
-    /**
-     * レコード1行分の結果セットをエンティティに変更する
-     *
-     * @param array $record
-     * @param UserEntity|null $user コメントを投稿したユーザーエンティティ
-     * @return CommentEntity
-     */
-    private function ToEntity(array $record): CommentEntity
-    {
-        // UserEntityに変換
-        $UserLoginAt = new \DateTime($record['u_login_at']);
-        $UserCreatedAt = new \DateTime($record['u_created_at']);
-        $UserUpdatedAt = new \DateTime($record['u_updated_at']);
-        $user = new UserEntity($record['u_id'], $record['u_user_name'], $record['u_email'], $record['u_password'], $record['u_status'], $UserLoginAt, $UserCreatedAt, $UserUpdatedAt);
-
-        // CommentEntityに変換
-        $CommentCreatedAt = new \DateTime($record['created_at']);
-        $CommentUpdatedAt = new \DateTime($record['updated_at']);
-        return new CommentEntity($record['id'], $record['user_id'], $record['board_id'], $record['comment_no'], $record['comment_body'], $record['status'], $CommentCreatedAt, $CommentUpdatedAt, $user);
-    }
-
     /**
      * BOARDSテーブルの更新日を更新する
      *
@@ -176,17 +169,5 @@ class CommentRepository extends AbstractMysqlRepository
     {
         $boardRepository = new BoardRepository($this->dbConnection);
         return $boardRepository->updatedAt($boardId);
-    }
-
-    /**
-     * USERSレコード一行に対応するエンティティを取得する
-     *
-     * @param integer $userId
-     * @return UserEntity
-     */
-    private function fetchUser(int $userId): UserEntity
-    {
-        $userRepository = new UserRepository($this->dbConnection);
-        return $userRepository->fetchUserById($userId);
     }
 }
