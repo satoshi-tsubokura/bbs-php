@@ -5,6 +5,8 @@ namespace App\Kernels;
 use Valitron\Validator as Valitron;
 
 /**
+ * 値に関するバリデーションを行うクラス
+ *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 class Validator

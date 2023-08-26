@@ -12,8 +12,12 @@ use App\Models\Entities\UserEntity;
  */
 class UserService
 {
+    // デフォルトハッシュアルゴリズム名
     private const HASH_ALGOLISM = PASSWORD_BCRYPT;
 
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         private UserRepository $userRepository
     ) {

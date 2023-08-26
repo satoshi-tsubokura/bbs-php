@@ -8,8 +8,16 @@ use App\Kernels\SessionManager;
 
 use function App\Kernels\Utils\getAppConfig;
 
+/**
+ * 認証サービスクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class AuthenticateService
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         private UserRepository $userRepository
     ) {
@@ -35,6 +43,12 @@ class AuthenticateService
         return password_verify($plainPassword, $user->getPassword()) ? $user : false;
     }
 
+    /**
+     * 認証処理を行う
+     *
+     * @param UserEntity $user
+     * @return void
+     */
     public function authenticate(UserEntity $user): void
     {
         $session = new SessionManager();

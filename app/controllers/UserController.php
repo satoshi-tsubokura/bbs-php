@@ -10,6 +10,11 @@ use App\Models\Databases\Repositories\UserRepository;
 use App\Services\AuthenticateService;
 use App\Services\UserService;
 
+/**
+ * ユーザーに関するコントローラークラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class UserController extends AbstractController
 {
     private UserService $userService;
@@ -22,6 +27,7 @@ class UserController extends AbstractController
         $this->userService = new UserService($userRepo);
         $this->authService = new AuthenticateService($userRepo);
 
+        // バリデーションルール
         $this->validatorRules = [
             'name' => [
                 'name' => 'ユーザー名',
@@ -81,7 +87,14 @@ class UserController extends AbstractController
         }
     }
 
-    public function viewSignUp(array $parameters = [], array $errorMsgs = []): void
+    /**
+     * 新規登録画面表示
+     *
+     * @param array $originValues 投稿失敗時の値
+     * @param array $errorMsgs 投稿失敗時のエラーメッセージ
+     * @return void
+     */
+    public function viewSignUp(array $originValues = [], array $errorMsgs = []): void
     {
         require_once __DIR__ . '/../views/pages/sign_up.php';
     }

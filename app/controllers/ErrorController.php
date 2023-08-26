@@ -3,12 +3,21 @@
 namespace App\Controllers;
 
 use App\Kernels\AbstractController;
-use App\Kernels\Http\Request;
-use App\Kernels\Http\Response;
 
+/**
+ * エラー画面表示に関する処理をするコントローラー
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class ErrorController extends AbstractController
 {
-    public function error(int $statusCode = null): void
+    /**
+     * エラー画面表示、ステータスコードによりメッセージ作成処理
+     *
+     * @param integer $statusCode HTTPステータスコード
+     * @return void
+     */
+    public function error(int $statusCode = 500): void
     {
         switch($statusCode) {
             case 403:

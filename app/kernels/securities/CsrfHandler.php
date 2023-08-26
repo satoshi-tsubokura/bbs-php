@@ -4,16 +4,26 @@ namespace App\Kernels\Securities;
 
 use App\Kernels\SessionManager;
 
+/**
+ * CSRFトークンに関する処理を行うクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class CsrfHandler
 {
-    private SessionManager $session;
+    // CSRFトークンをセッションに保存する際の配列キー
     private const SESSION_KEY = 'csrf_token';
 
-    public function __construct()
-    {
-        $this->session = new SessionManager();
+    public function __construct(
+        private SessionManager $session,
+    ) {
     }
 
+    /**
+     * csrfトークンを作成する
+     *
+     * @return string csrfトークン
+     */
     public function create(): string
     {
         $token_bytes = 32;
@@ -23,9 +33,14 @@ class CsrfHandler
         return $token;
     }
 
+    /**
+     * csrfトークン検証処理を行う
+     *
+     * @param string|null $targetToken
+     * @return boolean csrfトークンが正しいかを検証する
+     */
     public function verify(?string $targetToken): bool
     {
-        $this->session->start();
         $sessionToken = $this->session->get(self::SESSION_KEY);
 
         return isset($targetToken) && $targetToken === $sessionToken;

@@ -13,19 +13,28 @@ use App\Models\Databases\DBConnection;
 
 use function App\Kernels\Utils\getAppConfig;
 
+/**
+ * 掲示板に関するコントローラークラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class BoardController extends AbstractController
 {
     private BoardService $boardService;
-    private SessionManager $session;
-    private CsrfHandler $csrfHandler;
 
+    /**
+     * @override
+     *
+     * @param Request $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
         $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
         $this->session = new SessionManager();
-        $this->csrfHandler = new CsrfHandler();
 
+        // バリデーションルール
         $this->validatorRules = [
           'title' => [
             'name' => 'タイトル',
@@ -38,16 +47,19 @@ class BoardController extends AbstractController
         ];
     }
 
-    public function create()
+    /**
+     * バリデーション・掲示板作成処理
+     *
+     * @return void
+     */
+    public function create(): void
     {
         // バリデーション処理
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
 
-        // csrf検証
-        if (! $this->csrfHandler->verify($parameters['token'])) {
-            $errorMsgs = ['messages' => ['不正なアクセスを確認いたしました。']];
-        }
+        // csrfエラーメッセージ追加
+        $errorMsgs = [...$errorMsgs ,...$this->csrfVerify($parameters['token'])];
 
         try {
             // バリデーションエラーがなければ、登録処理を行う
@@ -59,7 +71,7 @@ class BoardController extends AbstractController
 
             if (count($errorMsgs) > 0) {
                 $this->viewCreate($parameters, $errorMsgs);
-                return;
+                exit;
             }
 
             $this->response->redirect('/');
@@ -70,13 +82,25 @@ class BoardController extends AbstractController
         }
     }
 
+    /**
+     * 掲示板作成画面表示、表示前の処理
+     *
+     * @param array $originValues 投稿失敗時の値
+     * @param array $errorMsgs 投稿失敗時のエラーメッセージ
+     * @return void
+     */
     public function viewCreate(array $originValues = [], array $errorMsgs = []): void
     {
         $csrfToken = $this->csrfHandler->create();
         require_once __DIR__ . '/../views/pages/board_create.php';
     }
 
-    public function index()
+    /**
+     * 掲示板一覧表示、表示前の処理
+     *
+     * @return void
+     */
+    public function index(): void
     {
         $currentPage = (int) ($this->request->getAllParameters()['page'] ?? 1);
         $maxBoardsNum = getAppConfig('maxBoardsNum');

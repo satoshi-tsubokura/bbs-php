@@ -4,6 +4,8 @@ namespace App\Kernels\Configs;
 
 /**
  * ルーティングでの認証に関する状態を羅列したEnum
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
 enum RouteAuthStatus
 {

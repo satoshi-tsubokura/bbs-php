@@ -8,8 +8,16 @@ use App\Kernels\SessionManager;
 
 use function App\Kernels\Utils\getAppConfig;
 
+/**
+ * 認証処理を行うクラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class Authentication
 {
+    /**
+     * @param SessionManager $session
+     */
     public function __construct(
         private SessionManager $session
     ) {

@@ -19,11 +19,18 @@ class AuthenticationController extends AbstractController
 {
     private AuthenticateService $authService;
 
+    /**
+     * @override
+     *
+     * @param Request $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
         $this->authService = new AuthenticateService(new UserRepository(new DBConnection()));
 
+        // バリデーションルール
         $this->validatorRules = [
           'name' => [
             'name' => 'ユーザー名',
@@ -45,8 +52,14 @@ class AuthenticationController extends AbstractController
 
     }
 
+    /**
+     * バリデーション、認証処理を行う
+     *
+     * @return void
+     */
     public function signin()
     {
+        // パラメーター値事態に対するバリデーション
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
 
@@ -78,14 +91,25 @@ class AuthenticationController extends AbstractController
         }
     }
 
+    /**
+     * サインアウト処理
+     *
+     * @return void
+     */
     public function signout(): void
     {
-        $session = new SessionManager();
-        $session->destroy();
+        $this->session->destroy();
 
         $this->response->redirect('/');
     }
 
+    /**
+     * 認証画面の表示
+     *
+     * @param array $originValues 投稿失敗時の値
+     * @param array $errorMsgs 投稿失敗時のエラーメッセージ
+     * @return void
+     */
     public function viewSignin(array $originValues = [], array $errorMsgs = []): void
     {
         require_once __DIR__ . '/../views/pages/sign_in.php';

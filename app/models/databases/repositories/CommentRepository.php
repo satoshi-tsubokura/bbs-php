@@ -68,6 +68,7 @@ class CommentRepository extends AbstractMysqlRepository
      *
      * @param integer $boardId
      * @return array<CommentEntity> コメント一覧
+     * @throws \PDOException
      */
     public function fetchAllByBoardId(int $boardId): array
     {
@@ -105,6 +106,7 @@ class CommentRepository extends AbstractMysqlRepository
      *
      * @param integer $id
      * @return CommentEntity
+     * @throws \PDOException
      */
     public function fetchById(int $id): CommentEntity
     {
@@ -127,6 +129,7 @@ class CommentRepository extends AbstractMysqlRepository
      * @param integer $id
      * @param integer $status CommentEntityの定数のみ許可する
      * @return boolean 変更が成功したか
+     * @throws \PDOException
      */
     public function changeStatus(int $id, int $status): bool
     {
@@ -145,6 +148,7 @@ class CommentRepository extends AbstractMysqlRepository
      *
      * @param integer $boardId
      * @return integer 最大コメント番号 + 1
+     * @throws \PDOException
      */
     private function fetchNextCommentNo(int $boardId): int
     {
@@ -164,6 +168,7 @@ class CommentRepository extends AbstractMysqlRepository
      *
      * @param integer $boardId
      * @return boolean 更新が成功したか
+     * @throws \PDOException
      */
     private function updatedAtBoard(int $boardId): bool
     {
