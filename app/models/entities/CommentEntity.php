@@ -7,7 +7,7 @@ namespace App\Models\Entities;
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class CommentEntity implements IEntity
+class CommentEntity implements IToEntity
 {
     // statusカラムの値を表す定数
     public const ACTIVE = 0;

@@ -10,9 +10,13 @@ use App\Kernels\SessionManager;
 use App\Models\Databases\DBConnection;
 use App\Services\AuthenticateService;
 
+/**
+ * 認証に関するコントローラークラス
+ *
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class AuthenticationController extends AbstractController
 {
-    private const SIGN_IN_VIEW_PATH = __DIR__ . '/../views/pages/sign_in.php';
     private AuthenticateService $authService;
 
     public function __construct(Request $request, Response $response)
@@ -23,8 +27,7 @@ class AuthenticationController extends AbstractController
         $this->validatorRules = [
           'name' => [
             'name' => 'ユーザー名',
-            //                                   Note: マルチバイト文字が先頭にあるケースで正確に判定してくれないため、一時的な対策
-            'rules' => ['required','lengthMin:3','lengthMax:21']
+            'rules' => ['required','lengthMin:3','lengthMax:20']
           ],
           'password' => [
             'name' => 'パスワード',
@@ -61,8 +64,8 @@ class AuthenticationController extends AbstractController
 
             // エラーメッセージがあれば画面表示
             if(count($errorMsgs) > 0) {
-                require_once self::SIGN_IN_VIEW_PATH;
-                return;
+                $this->viewSignin($parameters, $errorMsgs);
+                exit;
             }
 
             // 該当するユーザーが存在した場合
@@ -83,8 +86,9 @@ class AuthenticationController extends AbstractController
         $this->response->redirect('/');
     }
 
-    public function viewSignin(array $parameters = [], array $errorMsgs = []): void
+    public function viewSignin(array $originValues = [], array $errorMsgs = []): void
     {
-        require_once self::SIGN_IN_VIEW_PATH;
+        require_once __DIR__ . '/../views/pages/sign_in.php';
+        ;
     }
 }

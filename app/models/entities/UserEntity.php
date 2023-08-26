@@ -7,7 +7,7 @@ namespace App\Models\Entities;
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class UserEntity implements IEntity
+class UserEntity implements IToEntity
 {
     public const ACTIVE = 0;
     public const NOT_ACTIVE = 1;
