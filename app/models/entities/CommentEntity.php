@@ -7,11 +7,15 @@ namespace App\Models\Entities;
  *
  * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
  */
-class CommentEntity
+class CommentEntity implements IEntity
 {
     // statusカラムの値を表す定数
     public const ACTIVE = 0;
     public const ARCHIVED = 1;
+
+    // テーブルリレーション
+    private ?UserEntity $user = null;
+    private ?BoardEntity $board = null;
 
     public function __construct(
         private ?int $id,
@@ -22,9 +26,30 @@ class CommentEntity
         private int $status = self::ACTIVE,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
-        // USERSテーブルリレーション
-        private ?UserEntity $user = null
     ) {
+    }
+
+    /**
+     * @override
+     *
+     * @param array $record
+     * @param string $colPrefix as句でつけたプレフィックス
+     * @return CommentEntity
+     */
+    public static function toEntity(array $record, string $colPrefix = ''): CommentEntity
+    {
+        $createdAt = new \DateTime($record[$colPrefix . 'created_at']);
+        $updatedAt = new \DateTime($record[$colPrefix . 'updated_at']);
+        return new CommentEntity(
+            $record[$colPrefix . 'id'],
+            $record[$colPrefix . 'user_id'],
+            $record[$colPrefix . 'board_id'],
+            $record[$colPrefix . 'comment_no'],
+            $record[$colPrefix . 'comment_body'],
+            $record[$colPrefix . 'status'],
+            $createdAt,
+            $updatedAt
+        );
     }
 
     /*********************************************************
@@ -103,5 +128,27 @@ class CommentEntity
     public function getUser(): ?UserEntity
     {
         return $this->user;
+    }
+
+    /*********************************************************
+    * セッター
+    ***********************************************************/
+
+    /**
+     * @param UserEntity $user
+     * @return void
+     */
+    public function setUser(UserEntity $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param BoardEntity $board
+     * @return void
+     */
+    public function setBoard(BoardEntity $board): void
+    {
+        $this->board = $board;
     }
 }
