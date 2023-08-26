@@ -387,6 +387,7 @@ body {
   background-color: #ebebeb;
   letter-spacing: 0.2em;
   overflow-x: hidden;
+  word-break: break-all;
 }
 
 ul, ol {

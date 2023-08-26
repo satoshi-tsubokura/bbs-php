@@ -10,7 +10,7 @@ include __DIR__ . '/../templates/head.php' ?>
       <!-- Todoコメント一覧 -->
       <div class="p-board__heading">
         <h2 class="c-section__ttl p-board__ttl"><?= h($board->getTitle()) ?></h2>
-        <p class="p-board__description"><?= h(nl2br($board->getDescription())) ?></p>
+        <p class="p-board__description"><?= nl2br(h($board->getDescription())) ?></p>
       </div>
     <?php
      if(count($comments) === 0) {
