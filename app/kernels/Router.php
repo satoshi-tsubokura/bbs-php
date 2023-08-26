@@ -80,6 +80,7 @@ class Router
     {
         // リクエストヘッダの内容を取得
         $httpMethod = $this->request->getRequestMethod();
+
         $uriPath = $this->request->getPath();
         $routeInfo = $this->dispatch($httpMethod, $uriPath);
 
@@ -87,7 +88,7 @@ class Router
         if (isset($routeInfo[1]) && is_array($routeInfo[1])) {
             // 認証状態によるリダイレクト処理
             $routeAuth = $routeInfo[1][2] ?? RouteAuthStatus::Optional;
-            $auth = new Authentication();
+            $auth = new Authentication(new SessionManager());
             $auth->handleRoute(new Response(), $routeAuth);
         }
 
@@ -181,6 +182,7 @@ class Router
 
             default:
                 $this->response->redirect('/error');
+                break;
         }
     }
 }

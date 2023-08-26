@@ -40,6 +40,13 @@ class Request
             $plainParameters = $_POST;
         }
 
-        return array_map(fn ($para) => preg_replace('/\A[　 \n\r\t\v\x00]*|[　 \n\r\t\v\x00]*\z/u', '', $para), $plainParameters);
+        $convertParamaeterFnc = function ($para) {
+            $trimmedPara = preg_replace('/\A[　 \n\r\t\v\x00]*|[　 \n\r\t\v\x00]*\z/u', '', $para);
+            
+            // 改行文字の統一
+            return str_replace(["\r\n", "\r"], "\n", $trimmedPara);
+        };
+
+        return array_map($convertParamaeterFnc, $plainParameters);
     }
 }

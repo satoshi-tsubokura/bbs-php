@@ -548,6 +548,14 @@ input[type=file] {
   height: 100%;
 }
 
+.c-link {
+  color: #1867c0;
+  text-decoration: underline;
+}
+.c-link:hover {
+  opacity: 0.9;
+}
+
 .p-row-groups {
   display: flex;
   justify-content: center;
@@ -556,6 +564,9 @@ input[type=file] {
 }
 .p-row-groups *:not(:last-child) {
   margin-right: 20px;
+}
+.p-row-groups--right {
+  justify-content: right;
 }
 
 .p-login-btn {
@@ -606,13 +617,8 @@ input[type=file] {
   width: 250px;
 }
 .p-signinup__link {
-  color: #1867c0;
   text-align: center;
-  text-decoration: underline;
   margin-bottom: 20px;
-}
-.p-signinup__link:hover {
-  color: #477ebd;
 }
 
 .p-board-create {
@@ -687,6 +693,7 @@ input[type=file] {
 .p-board-form__input {
   margin-left: 10px;
   margin-bottom: 20px;
+  word-break: break-all;
 }
 .p-board-form__submit {
   padding: 10px 0;
@@ -706,6 +713,10 @@ input[type=file] {
   margin: 10px 0;
   padding: 0 1.6rem;
 }
+.p-comment__btn, .p-comment__link {
+  padding: 5px 0;
+  width: 50px;
+}
 
 .p-error__ttl {
   font-size: 4.5rem;
@@ -716,7 +727,5 @@ input[type=file] {
   margin-bottom: 50px;
 }
 .p-error__link {
-  color: #1867c0;
   font-size: 1.6rem;
-  text-decoration: underline;
 }/*# sourceMappingURL=index.css.map */

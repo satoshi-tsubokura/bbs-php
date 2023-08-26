@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Kernels\AbstractController;
+use App\Kernels\Auth\Authentication;
 use App\Kernels\Http\Request;
 use App\Kernels\Http\Response;
 use App\Kernels\Securities\CsrfHandler;
@@ -15,19 +16,33 @@ use App\Services\CommentService;
 
 use function App\Kernels\Utils\getAppConfig;
 
+/**
+ * @author satoshi tsubokura <tsubokurajob151718@gmail.com>
+ */
 class CommentController extends AbstractController
 {
     private CommentService $commentService;
     private BoardService $boardService;
     private CsrfHandler $csrfHandler;
+    private SessionManager $session;
+    private Authentication $auth;
 
+    /**
+     * 初期化等を行う
+     *
+     * @param Request $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
+        parent::__construct($request, $response);
+
         $this->commentService = new CommentService(new CommentRepository(new DBConnection()));
         $this->boardService = new BoardService(new BoardRepository(new DBConnection()));
         $this->csrfHandler = new CsrfHandler();
+        $this->session = new SessionManager();
+        $this->auth = new Authentication($this->session);
 
-        parent::__construct($request, $response);
         $this->validatorRules = [
             'comment' => [
                 'name' => 'コメント',
@@ -36,10 +51,18 @@ class CommentController extends AbstractController
         ];
     }
 
+    /**
+     * コメント投稿に関する操作を行う
+     * 投稿成功後リダイレクトを行う
+     *
+     * @param integer $boardId
+     * @return void
+     */
     public function post(int $boardId): void
     {
         $parameters = $this->request->getAllParameters();
         $errorMsgs = $this->validate($parameters);
+
         // csrf検証
         if (! $this->csrfHandler->verify($parameters['token'])) {
             $errorMsgs = ['messages' => ['不正なアクセスを確認いたしました。']];
@@ -64,15 +87,67 @@ class CommentController extends AbstractController
         }
     }
 
+    /**
+     * 掲示板IDに基づいてコメント一覧をビューに渡す処理を行う
+     *
+     * @param integer $boardId
+     * @param array $originValues 投稿失敗時の値
+     * @param array $errorMsgs 投稿失敗時のエラーメッセージ
+     * @return void
+     */
     public function index(int $boardId, array $originValues = [], array $errorMsgs = []): void
     {
-        // スレッド情報取得
-        $board = $this->boardService->fetchBoard($boardId);
+        try {
+            // スレッド情報取得
+            $board = $this->boardService->fetchBoard($boardId);
 
-        // コメント取得
-        $comments = $this->commentService->fetchComments($boardId);
+            // スレッドが存在しなければ、エラー画面
+            if (is_null($board)) {
+                $this->response->redirect('/error/404');
+            }
 
-        $csrfToken = $this->csrfHandler->create();
-        require_once __DIR__ . '/../views/pages/board.php';
+            // ビューで利用する変数
+            $comments = $this->commentService->fetchComments($boardId);
+            $csrfToken = $this->csrfHandler->create();
+
+            require_once __DIR__ . '/../views/pages/board.php';
+            exit;
+        } catch (\PDOException $e) {
+            $this->logger->error("コメント取得に失敗しました: {$e->getMessage()}", $e->getTrace());
+
+            $this->response->redirect('/error');
+        }
+    }
+
+    /**
+     * コメント削除に関する処理をする
+     * 成功時、元のコメント一覧画面にリダイレクトする
+     *
+     * @param integer $commentId
+     * @return void
+     */
+    public function delete(int $commentId): void
+    {
+        try {
+            // 権限検証
+            $comment = $this->commentService->fetchComment($commentId);
+            $createdUserId = $comment->getUserId();
+            if(! $this->auth->isAuthenticatedUser($createdUserId)) {
+                $userId = $this->session->get('user_id');
+
+                // エラー処理
+                $this->logger->info("ユーザーID: {$userId}はcommentId: {$commentId}のリソースを削除できません");
+                $this->response->redirect('/error/403');
+            }
+
+            $this->commentService->delete($comment);
+
+            $boardId = $comment->getBoardId();
+            $this->response->redirect("/board/{$boardId}");
+        } catch (\PDOException $e) {
+            $this->logger->error("コメント削除に失敗: {$e->getMessage()}", $e->getTrace());
+
+            $this->response->redirect('/error');
+        }
     }
 }
